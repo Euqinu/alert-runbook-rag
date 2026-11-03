@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+data/*
+!data/.gitkeep
+
+# Personal working notes, not part of the project
+LEARNING_NOTES.md
+docs/LEARNING_NOTES.md
+CLAUDE.md
+.claude/

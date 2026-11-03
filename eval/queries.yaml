@@ -1,0 +1,341 @@
+# Eval set for Alert Runbook RAG.
+#
+# How the expected answers were decided: by reading the source files in data/ (the runbook
+# headings and the alert names in rules.yml), NOT by looking at what the search returned.
+# `basis` says where in the sources the answer lives, so each line can be checked by hand.
+#
+# expected entries:
+#   runbook: <path under docs/>   matches a chunk whose title starts with that path
+#   alert:   <alert name>         matches a chunk whose alert_name equals it exactly
+# A question is a HIT if ANY of the top K results matches ANY expected entry.
+# answerable: false  = nothing in the corpus covers it; expected is empty (scored separately).
+
+# ---------- exact alert names (10) ----------
+- id: q01
+  category: exact-alert-name
+  question: "PatroniIsDown"
+  expected:
+    - runbook: patroni/alerts/PatroniIsDown.md
+  basis: "The alert's own runbook."
+
+- id: q02
+  category: exact-alert-name
+  question: "PostgresSplitBrain"
+  expected:
+    - runbook: patroni/alerts/PostgresSplitBrain.md
+  basis: "The alert's own runbook."
+
+- id: q03
+  category: exact-alert-name
+  question: "PatroniLongRunningTransactionDetected"
+  expected:
+    - runbook: patroni/alerts/PatroniLongRunningTransactionDetected.md
+    - runbook: patroni/postgres-long-running-transaction.md
+  basis: "The alert's own runbook; the general long-running-transaction page also covers it."
+
+- id: q04
+  category: exact-alert-name
+  question: "KubeContainersWaitingInError"
+  expected:
+    - runbook: kube/alerts/KubeContainersWaitingInError.md
+  basis: "The alert's own runbook."
+
+- id: q05
+  category: exact-alert-name
+  question: "ElasticsearchExporterClusterUnreachable"
+  expected:
+    - runbook: elastic/alerts/ElasticsearchExporterClusterUnreachable.md
+  basis: "The alert's own runbook."
+
+- id: q06
+  category: exact-alert-name
+  question: "PatroniPrimaryDiskIOSaturated"
+  expected:
+    - runbook: patroni/alerts/PatroniPrimaryDiskIOSaturated.md
+  basis: "The alert's own runbook."
+
+- id: q07
+  category: exact-alert-name
+  question: "HPAScaleCapability"
+  expected:
+    - runbook: kube/alerts/HPAScaleCapability.md
+  basis: "The alert's own runbook."
+
+- id: q08
+  category: exact-alert-name
+  question: "HostOutOfMemory"
+  expected:
+    - alert: Host out of memory
+  basis: "rules.yml, Host and hardware: 'Host out of memory'. No runbook for it in the corpus."
+
+- id: q09
+  category: exact-alert-name
+  question: "RedisOutOfConfiguredMaxmemory"
+  expected:
+    - alert: Redis out of configured maxmemory
+  basis: "rules.yml, Redis: 'Redis out of configured maxmemory'."
+
+- id: q10
+  category: exact-alert-name
+  question: "PostgresqlReplicationLag"
+  expected:
+    - alert: Postgresql replication lag
+    - runbook: patroni/postgres.md
+  basis: "rules.yml alert; patroni/postgres.md section 'Replication is lagging or has stopped'."
+
+# ---------- plain-language symptoms (21) ----------
+- id: q11
+  category: symptom
+  question: "postgres replica is lagging behind the primary, how do I find out why and fix it"
+  expected:
+    - runbook: patroni/postgres.md
+    - runbook: patroni/unhealthy_patroni_node_handling.md
+  basis: "postgres.md 'Replication is lagging or has stopped'; unhealthy_patroni_node_handling.md 'Replication Lagging'."
+
+- id: q12
+  category: symptom
+  question: "the postgres server ran out of disk space"
+  expected:
+    - runbook: patroni/postgresql-disk-space.md
+  basis: "postgresql-disk-space.md 'So your Postgres server has run out of disk space'."
+
+- id: q13
+  category: symptom
+  question: "queries are blocked waiting on locks, how do I see what is blocking them and cancel it"
+  expected:
+    - runbook: patroni/postgresql-locking.md
+  basis: "postgresql-locking.md: how to see locking and how to cancel or terminate a blocking query."
+
+- id: q14
+  category: symptom
+  question: "applications can't get a connection from pgbouncer, the pool looks full"
+  expected:
+    - runbook: pgbouncer/pgbouncer-saturation.md
+    - runbook: pgbouncer/pgbouncer-connections.md
+  basis: "pgbouncer-saturation.md 'using most of its PgBouncer connections'; pgbouncer-connections.md."
+
+- id: q15
+  category: symptom
+  question: "elasticsearch data nodes are running out of disk space"
+  expected:
+    - runbook: elastic/disk_space_saturation.md
+  basis: "disk_space_saturation.md 'Elastic Nodes Disk Space Saturation'."
+
+- id: q16
+  category: symptom
+  question: "elasticsearch cluster is yellow and some shards are unassigned"
+  expected:
+    - runbook: elastic/troubleshooting/README.md
+    - runbook: elastic/disk_space_saturation.md
+  basis: "troubleshooting/README.md 'Shard Allocation Failure'; disk_space_saturation.md 'Unassigned shards'."
+
+- id: q17
+  category: symptom
+  question: "pods are stuck in a waiting state with errors and never start"
+  expected:
+    - runbook: kube/alerts/KubeContainersWaitingInError.md
+  basis: "KubeContainersWaitingInError.md covers containers waiting in an error state."
+
+- id: q18
+  category: symptom
+  question: "helm upgrade is hanging and the release never finishes"
+  expected:
+    - runbook: kube/helm-upgrade-stuck.md
+  basis: "helm-upgrade-stuck.md 'Helm Upgrade is Stuck'."
+
+- id: q19
+  category: symptom
+  question: "how do I resize a persistent volume claim in kubernetes"
+  expected:
+    - runbook: kube/k8s-pvc-resize.md
+  basis: "k8s-pvc-resize.md 'Resize a PersistentVolumeClaim'."
+
+- id: q20
+  category: symptom
+  question: "I need to take a misbehaving pod out of service but keep it around to debug"
+  expected:
+    - runbook: kube/k8s-isolate-pod.md
+  basis: "k8s-isolate-pod.md 'Isolate a pod'."
+
+- id: q21
+  category: symptom
+  question: "postgres transaction id wraparound is getting close, what do we do"
+  expected:
+    - runbook: patroni/pg_xid_wraparound_alert.md
+    - runbook: patroni/check_wraparound.md
+  basis: "pg_xid_wraparound_alert.md; check_wraparound.md 'Check the status of transaction wraparound'."
+
+- id: q22
+  category: symptom
+  question: "CPU on the primary database node is saturated, how do I find which queries are responsible"
+  expected:
+    - runbook: patroni/primary_db_node_cpu_saturation.md
+  basis: "primary_db_node_cpu_saturation.md 'How to identify the root cause?'."
+
+- id: q23
+  category: symptom
+  question: "the postgres primary is not responding and patroni shows no leader"
+  expected:
+    - runbook: patroni/primary-unresponsive-assess-before-failover.md
+    - runbook: patroni/alerts/PatroniIsDown.md
+  basis: "primary-unresponsive-assess-before-failover.md 'Primary unresponsive or no Leader'; PatroniIsDown.md."
+
+- id: q24
+  category: symptom
+  question: "autovacuum isn't keeping up and a table has a huge number of dead tuples"
+  expected:
+    - runbook: patroni/postgres.md
+    - runbook: patroni/postgresql-vacuum.md
+  basis: "postgres.md 'Tables with a large amount of dead tuples'; postgresql-vacuum.md."
+
+- id: q25
+  category: symptom
+  question: "redis cluster state is not ok after one of the nodes went down"
+  expected:
+    - runbook: redis/redis-cluster.md
+  basis: "redis-cluster.md Troubleshooting: 'What is the state of the cluster?'."
+
+- id: q26
+  category: symptom
+  question: "how do I add a new shard to the redis cluster"
+  expected:
+    - runbook: redis/scaling-redis-cluster.md
+  basis: "scaling-redis-cluster.md 'Setting up instances' and 'Add instances in new shard'."
+
+- id: q27
+  category: symptom
+  question: "indexing into elasticsearch fails with mapper_parsing_exception"
+  expected:
+    - runbook: elastic/troubleshooting/elk_mapper_parsing_exception.md
+  basis: "elk_mapper_parsing_exception.md."
+
+- id: q28
+  category: symptom
+  question: "redis latency has spiked and commands are slow"
+  expected:
+    - runbook: redis/redis.md
+  basis: "redis.md 'What is causing Redis to slowdown?' (slowlog, latency monitoring)."
+
+- id: q29
+  category: symptom
+  question: "WAL generation on the primary is very high"
+  expected:
+    - runbook: patroni/primary_db_node_wal_generation_saturation.md
+  basis: "primary_db_node_wal_generation_saturation.md."
+
+- id: q30
+  category: symptom
+  question: "we are seeing deadlocks in postgres"
+  expected:
+    - runbook: patroni/alerts/PatroniDeadlocksDetected.md
+    - runbook: patroni/postgresql-locking.md
+  basis: "PatroniDeadlocksDetected.md; postgresql-locking.md section 'Deadlocks'."
+
+- id: q31
+  category: symptom
+  question: "how do I temporarily block an abusive IP address that is hammering the site"
+  expected:
+    - runbook: redis/ban-an-IP-with-redis.md
+  basis: "ban-an-IP-with-redis.md 'Blocking individual IPs using Redis and Rack Attack'. Hard on purpose: the title says Redis, the question does not."
+
+# ---------- vague or messy (4) ----------
+- id: q32
+  category: vague
+  question: "database is slow right now and users are complaining"
+  expected:
+    - runbook: patroni/performance-degradation-troubleshooting.md
+  basis: "performance-degradation-troubleshooting.md 'Troubleshooting database (postgres/pgbouncer) degradation'."
+
+- id: q33
+  category: vague
+  question: "app can't connect to the database, getting too many connections errors"
+  expected:
+    - alert: Postgresql too many connections
+    - runbook: pgbouncer/pgbouncer-connections.md
+    - runbook: patroni/postgres.md
+  basis: "rules.yml alert; pgbouncer-connections.md; postgres.md section 'Connections'."
+
+- id: q34
+  category: vague
+  question: "processes keep getting killed on the host and memory usage keeps climbing"
+  expected:
+    - alert: Host OOM kill detected
+    - alert: Host out of memory
+  basis: "rules.yml Host and hardware: both alerts describe this."
+
+- id: q35
+  category: vague
+  question: "redis memory is almost full and I'm worried about evictions"
+  expected:
+    - alert: Redis out of configured maxmemory
+    - runbook: redis/redis.md
+  basis: "rules.yml alert; redis.md covers memory analysis."
+
+# ---------- pasted alert text (5) ----------
+- id: q36
+  category: pasted-alert
+  question: "[FIRING:1] PGBouncer clients waiting for connection - instance=pgbouncer-01 cl_waiting > 0 for 5m"
+  expected:
+    - alert: PGBouncer clients waiting for connection
+    - runbook: pgbouncer/pgbouncer-connections.md
+  basis: "rules.yml alert; pgbouncer-connections.md mentions waiting clients."
+
+- id: q37
+  category: pasted-alert
+  question: "ALERT Redis replication broken instance=redis-cache-02:6379 severity=critical"
+  expected:
+    - alert: Redis replication broken
+  basis: "rules.yml, Redis."
+
+- id: q38
+  category: pasted-alert
+  question: "[FIRING] KubePodCrashLooping namespace=payments pod=api-7f9d5c-xk2lm restarts=14 in 15m"
+  expected:
+    - alert: Kubernetes pod crash looping
+  basis: "rules.yml, Kubernetes. No runbook in the corpus."
+
+- id: q39
+  category: pasted-alert
+  question: "Elasticsearch Cluster Red: cluster=logs-prod status=red for 5m"
+  expected:
+    - alert: Elasticsearch Cluster Red
+    - runbook: elastic/troubleshooting/README.md
+  basis: "rules.yml alert; troubleshooting/README.md 'Cluster unhealthy'."
+
+- id: q40
+  category: pasted-alert
+  question: "Host out of disk space: /var/lib/postgresql has 3% free on db-prod-02"
+  expected:
+    - alert: Host out of disk space
+    - runbook: patroni/postgresql-disk-space.md
+  basis: "rules.yml alert; postgresql-disk-space.md."
+
+# ---------- not in the corpus (4) ----------
+# Topics checked against both sources and absent. Right behaviour: no confident answer.
+- id: q41
+  category: unanswerable
+  answerable: false
+  question: "GitHub Actions runners are all offline and workflows are stuck queued"
+  expected: []
+  basis: "No GitHub Actions content in either source."
+
+- id: q42
+  category: unanswerable
+  answerable: false
+  question: "IIS app pool keeps crashing on our Windows web servers"
+  expected: []
+  basis: "No IIS content in either source."
+
+- id: q43
+  category: unanswerable
+  answerable: false
+  question: "LDAP authentication failures started after the password reset"
+  expected: []
+  basis: "No LDAP content in either source."
+
+- id: q44
+  category: unanswerable
+  answerable: false
+  question: "site-to-site VPN tunnel keeps flapping"
+  expected: []
+  basis: "VPN appears once (how to connect to private GKE clusters), nothing about tunnels flapping."

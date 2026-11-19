@@ -17,4 +17,8 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
-      - run: npm test
+      - run: npm run test:unit
+        env:
+          DATABASE_URL: postgres://placeholder:placeholder@localhost:5432/placeholder
+          ANTHROPIC_API_KEY: placeholder
+          VOYAGE_API_KEY: placeholder

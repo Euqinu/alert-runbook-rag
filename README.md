@@ -1,3 +1,5 @@
+[![CI](https://github.com/Euqinu/alert-runbook-rag/actions/workflows/ci.yml/badge.svg)](https://github.com/Euqinu/alert-runbook-rag/actions/workflows/ci.yml)
+
 # Alert Runbook RAG
 
 Give it an infrastructure alert or a symptom ("HostOutOfMemory", "my helm release is stuck"), and it returns the relevant runbook steps with citations to the source document. It says so when the runbooks do not cover the question.

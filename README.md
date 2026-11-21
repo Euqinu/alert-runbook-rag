@@ -57,7 +57,7 @@ flowchart LR
 
 ## Results
 
-Retrieval is measured on 44 hand-checked questions (40 with an answer in the corpus, 4 without): exact alert names, plain-language symptoms, vague descriptions, and pasted alert text. A question counts as a hit when an expected runbook file or alert appears in the top 5. Full details and a log of every run are in [`docs/EVAL_RESULTS.md`](docs/EVAL_RESULTS.md).
+Retrieval is measured on 69 hand-checked questions (62 with an answer in the corpus, 7 without): exact alert names, plain-language symptoms, vague descriptions, and pasted alert text. A question counts as a hit when an expected runbook file or alert appears in the top 5. Full details and a log of every run are in [`docs/EVAL_RESULTS.md`](docs/EVAL_RESULTS.md).
 
 Baseline (vector search only):
 

@@ -1,0 +1,248 @@
+{
+  "model": "claude-sonnet-5-5",
+  "k": 5,
+  "createdAt": "2026-11-21T06:59:34.691Z",
+  "records": [
+    {
+      "query": {
+        "id": "q18",
+        "category": "symptom",
+        "question": "helm upgrade is hanging and the release never finishes",
+        "answerable": true,
+        "expected": [
+          {
+            "runbook": "kube/helm-upgrade-stuck.md"
+          }
+        ]
+      },
+      "retrievalRank": 1,
+      "results": [
+        {
+          "text": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Evidence\n\nAn auto-deploy will fail immediately with an error:\n\n> `Error: UPGRADE FAILED: another operation (install/upgrade/rollback) is in\n> progress`\n\nIf a deploy takes more than 90 minutes, Helm times out and starts its own\nrollback. That rollback can also time out. This can leave the release in a\n`failed` state, a `pending-rollback` state, or both.",
+          "title": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Evidence",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/kube/helm-upgrade-stuck.md",
+          "license": "MIT",
+          "chunkIndex": 1,
+          "distance": 0.3051872617229535
+        },
+        {
+          "text": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck\n\nOn the `k8s-workloads/gitlab-com` repository, [we ask that helm be the\nmaintainer for\noperations](https://gitlab.com/gitlab-com/gl-infra/k8s-workloads/gitlab-com/-/blob/bc4d1c0b71668c679200ca282d5cd55a479837b2/bases/helmDefaults.yaml#L5).\nThis has a downside where if helm were to fail to talk to the Kubernetes API at\nthe right time, an upgrade will get stuck.",
+          "title": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/kube/helm-upgrade-stuck.md",
+          "license": "MIT",
+          "chunkIndex": 0,
+          "distance": 0.3077717996631678
+        },
+        {
+          "text": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Remediation\n\n<details>\n   <summary>Example: a failed revision followed by a pending-rollback revision, seen with `helm history`</summary>\n\n   ```\n   ➜  ~ helm history gitlab --namespace gitlab | tail -3\n   1830        Fri Aug 14 10:19:16 2026    deployed            gitlab-10.2.0    master         Upgrade complete\n   1831        Fri Aug 14 11:18:32 2026    failed              gitlab-10.2.0    master         Upgrade \"gitlab\" failed: context deadline exceeded\n   1832        Fri Aug 14 12:49:06 2026    pending-rollback    gitlab-10.2.0    master         Rollback to 1830\n   ```\n\n   </details>\n1. Find the secret object(s) associated with the failed and/or pending-rollback\n   release(s) and delete them\n   * Example: The `gitlab-cny` release with revision `1234` is stuck, we'd run\n     the following command: `kubectl delete secret --namespace gitlab-cny\n     sh.helm.release.v1.gitlab-cny.v1234`\n   * Replace the namespace and target secret as necessary\n   * If both a failed and a pending-rollback revision exist, delete the secret\n     for each revision\n1. Validate that the `helm status` indicates the deploy is complete\n1. Continue remediation pending the situation that brought you here",
+          "title": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Remediation",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/kube/helm-upgrade-stuck.md",
+          "license": "MIT",
+          "chunkIndex": 4,
+          "distance": 0.3369429710754426
+        },
+        {
+          "text": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Remediation\n\n> [!important]\n> Do not use the `helm rollback` command. `helm rollback` will roll the code that is running in an\n> environment back to a previous version. We can not be certain that this is safe, because\n> post-deployment migrations may already have been run for the previous version. So, we should\n> **always** roll forward when Helm is stuck. Deleting the Helm version Secret does not affect the\n> code that is running in our cluster, and hence, is a safer way to recover when Helm is stuck.\n\n1. Validate that no deployments or configuration changes are attempting to be\n   rolled out\n   * Check for any running CI jobs that are targeting this cluster\n1. Log into the cluster\n   * Ensure all Deployments indicate they are not stuck (as described above)\n1. Identify the \"failed\" and/or \"pending-rollback\" release with `helm list\n   --namespace gitlab`\n   * Replace the appropriate namespace as needed\n   * Document the noted Revision Number\n   * If the status is `pending-rollback`, the revision immediately before it\n     (`Revision Number` minus 1) is the \"failed\" revision that Helm tried to\n     roll back from. Document that revision number too.\n\n   <details>\n   <summary>Example: a failed revision followed by a pending-rollback revision, seen with `helm history`</summary>",
+          "title": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Remediation",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/kube/helm-upgrade-stuck.md",
+          "license": "MIT",
+          "chunkIndex": 3,
+          "distance": 0.3548668834487715
+        },
+        {
+          "text": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Information Gathering for Remediation\n\nEnsure that no other pipelines are executing just in case we ran into an edge\ncase with resource locking and two CI jobs started executing against the same\ncluster at the same time.  Remember that the jobs that run are located on our\nops instance.\n\nEnsure that all deployments or objects have reconciled and that the cluster\nisn't suffering some other failure.  What we want to avoid is attempting to fix\na problem that we make worse because the root cause is falsely identified.  The\neasiest way to check for this is to ensure that all Deployments are up-to-date.\nThis can be done by printing the `.status` object of the Deployment, example,\n`kubectl get deploy gitlab-gitlab-pages -o json | jq .status`.  Observe the\nfollowing:\n\n* Conditions `Available` and `Progressing` to ensure their status is `True`.\n* Ensure the number of `updatedReplicas` and `availableReplicas` matches or is\n  at least very close\n  * Mind that with HPA's these values may differ by a tiny amount (usually\n    within 10% of the `replicas` value.\n\nIf any of the above look suspicious considering a differing remediation option\npending the investigation into the target Deployment that appears unhealthy.",
+          "title": "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Information Gathering for Remediation",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/kube/helm-upgrade-stuck.md",
+          "license": "MIT",
+          "chunkIndex": 2,
+          "distance": 0.3633442737665328
+        }
+      ],
+      "answer": {
+        "model": "claude-sonnet-5-5",
+        "usage": {
+          "inputTokens": 2338,
+          "outputTokens": 703
+        },
+        "text": "1. Confirm the symptom: a stuck release fails auto-deploys with `Error: UPGRADE FAILED: another operation (install/upgrade/rollback) is in progress` [1]. Deploys over 90 minutes time out, and Helm's own rollback can also time out. That leaves the release in `failed`, `pending-rollback`, or both [1].\n\n2. **Do not use `helm rollback`.** It rolls running code back to a previous version, which may not be safe because post-deployment migrations may already have run. Always roll forward when Helm is stuck [4].\n\n3. Check that no deployments or config changes are being rolled out, including running CI jobs targeting this cluster [4]. Those jobs run on the ops instance [5].\n\n4. Log into the cluster and check that all Deployments are healthy [4][5]:\n   - Print the status with `kubectl get deploy <name> -o json | jq .status` [5].\n   - Conditions `Available` and `Progressing` should be `True` [5].\n   - `updatedReplicas` and `availableReplicas` should match or be very close. With HPAs they may differ by up to ~10% of `replicas` [5].\n   - If anything looks unhealthy, investigate that Deployment and consider a different remediation, rather than risk making things worse [5].\n\n5. Identify the `failed` and/or `pending-rollback` release with `helm list --namespace gitlab` (adjust the namespace) and note the revision number [4]. If it is `pending-rollback`, the revision before it (revision minus 1) is the failed one Helm rolled back from, so note that too [4].\n\n6. Delete the Helm release secret for each stuck revision, for example `kubectl delete secret --namespace gitlab-cny sh.helm.release.v1.gitlab-cny.v1234`. Replace the namespace and secret name as needed. If both a failed and a pending-rollback revision exist, delete both secrets [3]. Deleting the secret does not affect the code running in the cluster [4].\n\n7. Validate that `helm status` shows the deploy is complete [3].\n\n8. Continue remediation for whatever situation brought you here [3].",
+        "notFound": false,
+        "refused": false,
+        "truncated": false,
+        "citations": [
+          1,
+          3,
+          4,
+          5
+        ],
+        "invalidCitations": []
+      }
+    },
+    {
+      "query": {
+        "id": "q41",
+        "category": "unanswerable",
+        "question": "GitHub Actions runners are all offline and workflows are stuck queued",
+        "answerable": false,
+        "expected": []
+      },
+      "retrievalRank": null,
+      "results": [
+        {
+          "text": "Alert: GitLab Sidekiq queue not draining\nService: GitLab CI (CI/CD)\nSeverity: warning\nGitLab Sidekiq queue {{ $labels.name }} has had a persistent backlog of {{ $value }} jobs for 30 minutes, suggesting a stuck or crashed worker class rather than transient load.",
+          "title": "CI/CD > GitLab CI",
+          "alertName": "GitLab Sidekiq queue not draining",
+          "source": "awesome-prometheus-alerts",
+          "url": "https://github.com/samber/awesome-prometheus-alerts/blob/0fbd08449cf6e81c41569351e4fcee1f5c117501/_data/rules.yml",
+          "license": "CC BY 4.0",
+          "chunkIndex": 754,
+          "distance": 0.4901658296585083
+        },
+        {
+          "text": "Alert: Spinnaker zombie executions\nService: Spinnaker (CI/CD)\nSeverity: warning\nZombie pipeline executions rate is {{ $value | humanize }}/s. These are executions with no corresponding queue messages.\nZombies are pipeline executions that are running but have lost their queue entry.\nSee https://spinnaker.io/docs/guides/runbooks/orca-zombie-executions/",
+          "title": "CI/CD > Spinnaker",
+          "alertName": "Spinnaker zombie executions",
+          "source": "awesome-prometheus-alerts",
+          "url": "https://github.com/samber/awesome-prometheus-alerts/blob/0fbd08449cf6e81c41569351e4fcee1f5c117501/_data/rules.yml",
+          "license": "CC BY 4.0",
+          "chunkIndex": 771,
+          "distance": 0.4942784158670428
+        },
+        {
+          "text": "Alert: GitLab Puma no available pool capacity\nService: GitLab CI (CI/CD)\nSeverity: critical\nGitLab Puma pool capacity on {{ $labels.instance }} has been at 0 for 5 minutes. All threads are busy.",
+          "title": "CI/CD > GitLab CI",
+          "alertName": "GitLab Puma no available pool capacity",
+          "source": "awesome-prometheus-alerts",
+          "url": "https://github.com/samber/awesome-prometheus-alerts/blob/0fbd08449cf6e81c41569351e4fcee1f5c117501/_data/rules.yml",
+          "license": "CC BY 4.0",
+          "chunkIndex": 742,
+          "distance": 0.509179801295983
+        },
+        {
+          "text": "Alert: Spinnaker Orca queue backing up\nService: Spinnaker (CI/CD)\nSeverity: warning\nOrca work queue has {{ $value }} messages ready for delivery but not yet picked up. Pipeline executions may be delayed.\nIn a healthy Spinnaker, queue_ready_depth should stay at or near 0.\nSustained non-zero values indicate Orca cannot keep up with incoming work.",
+          "title": "CI/CD > Spinnaker",
+          "alertName": "Spinnaker Orca queue backing up",
+          "source": "awesome-prometheus-alerts",
+          "url": "https://github.com/samber/awesome-prometheus-alerts/blob/0fbd08449cf6e81c41569351e4fcee1f5c117501/_data/rules.yml",
+          "license": "CC BY 4.0",
+          "chunkIndex": 769,
+          "distance": 0.5145926756152267
+        },
+        {
+          "text": "Alert: Jenkins node offline\nService: Jenkins (CI/CD)\nSeverity: critical\nAt least one Jenkins node offline: `{{$labels.instance}}` in realm {{$labels.realm}}/{{$labels.env}} ({{$labels.region}})",
+          "title": "CI/CD > Jenkins",
+          "alertName": "Jenkins node offline",
+          "source": "awesome-prometheus-alerts",
+          "url": "https://github.com/samber/awesome-prometheus-alerts/blob/0fbd08449cf6e81c41569351e4fcee1f5c117501/_data/rules.yml",
+          "license": "CC BY 4.0",
+          "chunkIndex": 712,
+          "distance": 0.5238607412369111
+        }
+      ],
+      "answer": {
+        "model": "claude-sonnet-5-5",
+        "usage": {
+          "inputTokens": 1038,
+          "outputTokens": 12
+        },
+        "text": "Not found in the runbooks.",
+        "notFound": true,
+        "refused": false,
+        "truncated": false,
+        "citations": [],
+        "invalidCitations": []
+      }
+    },
+    {
+      "query": {
+        "id": "q32",
+        "category": "vague",
+        "question": "database is slow right now and users are complaining",
+        "answerable": true,
+        "expected": [
+          {
+            "runbook": "patroni/performance-degradation-troubleshooting.md"
+          }
+        ]
+      },
+      "retrievalRank": null,
+      "results": [
+        {
+          "text": "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time\n\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |\n\nLet's analyze the first row since we noticed that consumed more time to resolve:",
+          "title": "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/patroni/database_peak_analysis.md",
+          "license": "MIT",
+          "chunkIndex": 32,
+          "distance": 0.5087263735749182
+        },
+        {
+          "text": "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time\n\n| QueryId             | Query                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ",
+          "title": "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/patroni/database_peak_analysis.md",
+          "license": "MIT",
+          "chunkIndex": 33,
+          "distance": 0.50882369385048
+        },
+        {
+          "text": "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time\n\n| QueryId              | Query                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ",
+          "title": "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/patroni/database_peak_analysis.md",
+          "license": "MIT",
+          "chunkIndex": 9,
+          "distance": 0.5089153501068105
+        },
+        {
+          "text": "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes\n\n- Be aware of the [primary database](https://dashboards.gitlab.net/d/000000244/postgresql-replication-overview?orgId=1) for log queries\n- Check the dashboards and log links below to asses root cause\n- See if there is a quick recovery, if not page the IMOC who will bring in the CMOC in case we need to make a status page update",
+          "title": "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/patroni/rails-sql-apdex-slow.md",
+          "license": "MIT",
+          "chunkIndex": 1,
+          "distance": 0.51147814334473
+        },
+        {
+          "text": "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes > Abuse\n\nOften abuse can be the source of DB degradation, to see if there might be abuse happening reference the [abuse runbook](../ci-runners/troubleshooting-guide.md#how-to-detect-ci-abuse)",
+          "title": "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes > Abuse",
+          "alertName": null,
+          "source": "gitlab-runbooks",
+          "url": "https://gitlab.com/gitlab-com/runbooks/-/blob/92eb78a55a4a50532825adb6dabc0e17dabe9a35/docs/patroni/rails-sql-apdex-slow.md",
+          "license": "MIT",
+          "chunkIndex": 6,
+          "distance": 0.5258280226331982
+        }
+      ],
+      "answer": {
+        "model": "claude-sonnet-5-5",
+        "usage": {
+          "inputTokens": 1308,
+          "outputTokens": 260
+        },
+        "text": "1. Be aware of the primary database when querying logs; the runbook links the PostgreSQL replication overview dashboard. [4]\n2. Check the dashboards and log links in the Rails SQL Apdex runbook to assess root cause. [4]\n3. Check whether abuse is the source of the degradation, using the abuse runbook (ci-runners/troubleshooting-guide.md#how-to-detect-ci-abuse). [5]\n4. Look for a quick recovery. If there isn't one, page the IMOC, who will bring in the CMOC if a status page update is needed. [4]\n\nMissing: the excerpts don't include the dashboard and log links referenced in step 2, or specific remediation steps for a particular cause. The peak analysis excerpts are truncated and give no usable steps.",
+        "notFound": false,
+        "refused": false,
+        "truncated": false,
+        "citations": [
+          4,
+          5
+        ],
+        "invalidCitations": []
+      }
+    }
+  ]
+}

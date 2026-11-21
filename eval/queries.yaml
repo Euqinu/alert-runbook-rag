@@ -339,3 +339,213 @@
   question: "site-to-site VPN tunnel keeps flapping"
   expected: []
   basis: "VPN appears once (how to connect to private GKE clusters), nothing about tunnels flapping."
+
+# =====================================================================================
+# Round 2 (added 2026-11-20, 25 questions). Written from the sources, NO searches run.
+# Goal: cover what round 1 missed (see docs/LEARNING_NOTES.md section on good evals):
+#   - runbooks that no round-1 question pointed at
+#   - services that exist only as alerts in rules.yml (MySQL, MongoDB, SSL, clock)
+#   - different question styles: how-to, paraphrase with no shared keywords, typos,
+#     a long multi-symptom incident description, a truly ambiguous question
+#   - "near-miss" unanswerable questions: same domain as the corpus, so retrieval
+#     will return plausible-looking chunks and the system must still say "not found"
+# =====================================================================================
+
+# ---------- runbooks never targeted in round 1: symptoms (6) ----------
+- id: q45
+  category: paraphrase
+  question: "disk shows plenty of free space but I get 'no space left on device' when creating files on a kubernetes volume"
+  expected:
+    - runbook: kube/alerts/kube_persistent_volume_claim_inodes.md
+  basis: "kube_persistent_volume_claim_inodes.md: inodes can run out while df -h looks healthy; ENOSPC even though space remains. The word 'inode' is deliberately absent from the question."
+
+- id: q46
+  category: symptom
+  question: "pods are stuck Pending because the scheduler can't place them on any node"
+  expected:
+    - runbook: kube/alerts/KubeSchedulingFailures.md
+    - runbook: kube/alerts/GKENodeCountCritical.md
+  basis: "KubeSchedulingFailures.md covers KubePodsUnschedulable; GKENodeCountCritical.md covers a node pool at max so the autoscaler cannot add nodes (a common cause)."
+
+- id: q47
+  category: symptom
+  question: "our gke cluster can't scale up any more, we hit the node limit"
+  expected:
+    - runbook: kube/alerts/GKENodeCountCritical.md
+  basis: "GKENodeCountCritical.md: node pool reached max_node_count, Cluster Autoscaler cannot add nodes."
+
+- id: q49
+  category: symptom
+  question: "the wal-g base backup is delayed, how do I check whether backups and WAL archiving are actually working"
+  expected:
+    - runbook: patroni/alerts/walgBaseBackup.md
+    - runbook: patroni/postgresql-backups-wale-walg.md
+  basis: "walgBaseBackup.md (alert: delayed/failed base backup); postgresql-backups-wale-walg.md section 'How Do I Verify This?'."
+
+- id: q50
+  category: symptom
+  question: "we found corrupted data in a postgres table, how do we find out how widespread it is"
+  expected:
+    - runbook: patroni/postgres-data-corruption.md
+  basis: "postgres-data-corruption.md 'Detecting corrupted data' and 'What to do when finding corrupted data'."
+
+- id: q53
+  category: symptom
+  question: "the Rails SQL apdex alert is firing, what should I check in the first few minutes"
+  expected:
+    - runbook: patroni/rails-sql-apdex-slow.md
+  basis: "rails-sql-apdex-slow.md 'What to do in the first 5 minutes'."
+
+- id: q54
+  category: symptom
+  question: "pg_stat_activity shows lots of sessions waiting on LWLock BufferMapping, what does that mean and what do we do"
+  expected:
+    - runbook: patroni/postgresql-buffermapping-lwlock-contention.md
+  basis: "postgresql-buffermapping-lwlock-contention.md: quick reference, cause, first-response mitigation."
+
+# ---------- how-to / procedure questions (6) ----------
+# Round 1 was mostly 'something is broken'. On-call also asks 'how do I do X'.
+- id: q48
+  category: how-to
+  question: "we are saturated on pgbouncer, how do I add another pgbouncer node"
+  expected:
+    - runbook: pgbouncer/pgbouncer-add-instance.md
+  basis: "pgbouncer-add-instance.md 'Add a new PgBouncer instance' (read/write and read-only nodes)."
+
+- id: q51
+  category: how-to
+  question: "a table and its indexes are badly bloated, how can I shrink them without a long exclusive lock"
+  expected:
+    - runbook: patroni/pg_repack.md
+  basis: "pg_repack.md 'What is bloat?' and 'Why pg_repack?' (VACUUM FULL takes a long exclusive lock)."
+
+- id: q55
+  category: how-to
+  question: "why don't redis snapshots run on the primary, and where do they run instead"
+  expected:
+    - runbook: redis/redis-rdb-snapshots.md
+  basis: "redis-rdb-snapshots.md: RDB snapshots are taken on secondaries by a cookbook job to avoid a performance hit on primaries."
+
+- id: q56
+  category: how-to
+  question: "what is the url for kibana on the logging cluster and how do I change the timezone"
+  expected:
+    - runbook: elastic/kibana.md
+  basis: "kibana.md 'Kibana URL' and 'Timezone in Kibana'."
+
+- id: q57
+  category: how-to
+  question: "a replacement replica was seeded from an old disk snapshot and has a lot of WAL to replay before it can stream from the leader"
+  expected:
+    - runbook: patroni/add-patroni-node-from-wal-archive.md
+  basis: "add-patroni-node-from-wal-archive.md overview lists exactly this case. Sibling doc scale-up-patroni.md is for a plain replica from a FRESH snapshot, so it is NOT accepted: this question tests picking the right sibling."
+
+- id: q58
+  category: how-to
+  question: "how do I rotate the database password the rails app uses without downtime"
+  expected:
+    - runbook: patroni/rotating-rails-postgresql-password.md
+    - runbook: patroni/postgresql-role-credential-rotation.md
+  basis: "rotating-rails-postgresql-password.md (temporary credentials); postgresql-role-credential-rotation.md (zero-downtime credential rotation)."
+
+# ---------- paraphrase: no shared keywords with the source (1 more) ----------
+- id: q52
+  category: paraphrase
+  question: "vacuum can't clean up dead rows because something is holding back the xmin horizon"
+  expected:
+    - runbook: patroni/pg_xid_xmin_age_alert.md
+  basis: "pg_xid_xmin_age_alert.md: pg_txid_xmin_age saturation, diagnostics and mitigation. Written as a symptom, not the alert name."
+
+# ---------- services that exist ONLY as alerts in rules.yml (4) ----------
+# No runbook covers these, so alert chunks are the correct answer (D12 only excludes alerts
+# where a runbook exists).
+- id: q59
+  category: alert-only
+  question: "mysql replica is falling behind the master"
+  expected:
+    - alert: MySQL Slave replication lag
+    - alert: MySQL heartbeat replication lag
+  basis: "rules.yml, MySQL. No MySQL runbook in the corpus."
+
+- id: q60
+  category: alert-only
+  question: "mongodb replica set has no primary after a node restarted"
+  expected:
+    - alert: MongoDB replica set has no primary
+  basis: "rules.yml, MongoDB."
+
+- id: q61
+  category: alert-only
+  question: "the TLS certificate on our public site expires next week"
+  expected:
+    - alert: Blackbox SSL certificate will expire soon
+    - alert: Blackbox SSL certificate will expire very soon
+  basis: "rules.yml, Blackbox. The question says TLS, the alerts say SSL: tests whether meaning bridges the term."
+
+- id: q62
+  category: alert-only
+  question: "server clock is drifting and NTP is not syncing"
+  expected:
+    - alert: Host clock skew
+    - alert: Host clock not synchronising
+  basis: "rules.yml, Host and hardware."
+
+# ---------- other styles (4) ----------
+- id: q63
+  category: pasted-alert
+  question: "[FIRING:1] HostOutOfInodes instance=web-03 mountpoint=/var inodes_free=2%"
+  expected:
+    - alert: Host out of inodes
+  basis: "rules.yml, Host and hardware: 'Host out of inodes'. CamelCase name as it appears in Alertmanager, not as the rule is titled."
+
+- id: q64
+  category: messy
+  question: "postgress replica not catching up, lag keeps growing"
+  expected:
+    - runbook: patroni/postgres.md
+    - runbook: patroni/unhealthy_patroni_node_handling.md
+  basis: "Same intent as q11 with a typo, no 'primary' and no 'fix'. Tests robustness to sloppy typing; same answer key as q11."
+
+- id: q65
+  category: multi-symptom
+  question: "since 14:05 we see 5xx on the web tier, rails queries are timing out, pgbouncer shows clients waiting and the primary cpu is at 100%. where do I start"
+  expected:
+    - runbook: patroni/performance-degradation-troubleshooting.md
+    - runbook: patroni/primary_db_node_cpu_saturation.md
+    - runbook: pgbouncer/pgbouncer-saturation.md
+    - runbook: patroni/rails-sql-apdex-slow.md
+  basis: "Four symptoms in one message; each expected runbook covers one of them. Real incident messages look like this. Any one counts as a hit, so this is lenient on purpose."
+
+- id: q66
+  category: vague
+  question: "disk is almost full"
+  expected:
+    - runbook: patroni/postgresql-disk-space.md
+    - runbook: elastic/disk_space_saturation.md
+    - runbook: kube/alerts/kube_persistent_volume_claim_disk_space.md
+    - alert: Host out of disk space
+  basis: "Truly ambiguous (which system?). Four defensible answers across both sources. A good system returns several or asks which disk; any one counts as a hit."
+
+# ---------- near-miss, not in the corpus (3) ----------
+# Same domain as the corpus (kubernetes, databases), so search will return plausible-looking
+# chunks. Topics checked absent from both sources: eks, karpenter, dynamodb, openshift.
+- id: q67
+  category: unanswerable
+  answerable: false
+  question: "EKS nodes are not joining the cluster after karpenter scaled up"
+  expected: []
+  basis: "No EKS or Karpenter content. Neighbours exist (GKE autoscaler, scheduling failures), which is the point."
+
+- id: q68
+  category: unanswerable
+  answerable: false
+  question: "DynamoDB requests are being throttled, provisioned capacity exceeded"
+  expected: []
+  basis: "No DynamoDB content in either source. Database alerts exist for other engines."
+
+- id: q69
+  category: unanswerable
+  answerable: false
+  question: "OpenShift router returns 503 after the router pods restarted"
+  expected: []
+  basis: "No OpenShift content. Kubernetes runbooks exist, so retrieval will find kube chunks."

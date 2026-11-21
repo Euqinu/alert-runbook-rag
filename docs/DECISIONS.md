@@ -110,3 +110,44 @@ Format: context, options, choice, why.
 - **Citation check in code:** every `[n]` must be between 1 and the number of sources, otherwise it is reported as an invalid (made-up) citation. This checks that a cited source EXISTS, not that it SUPPORTS the claim.
 - **Safety fallbacks:** `fallbacks: "default"` with beta `server-side-fallback-2026-07-01`, so if the classifiers decline, the API retries on its recommended fallback. Refusals are also handled in code (`stop_reason === "refusal"`).
 - **Known trade-off:** the model is strict. For "my helm release is stuck in pending-upgrade" the right runbook was retrieved (distance 0.33), but the model answered "Not found in the runbooks" because the runbook covers `failed` / `pending-rollback`, not `pending-upgrade`. Whether that is too cautious is to be measured in the generation eval, not decided by feel.
+
+## D14. Eval round 2: 25 more questions aimed at what round 1 did not test
+
+- **Context:** the round-1 baseline (97.5% hit@5, 44 questions) looked strong, but the set was small, clean and written by the same author as the system. A high score on an easy set proves little. I asked (2026-11-20) for 25 more questions and for the principles of a good eval.
+- **Options:** (a) add more questions of the same kinds; (b) add questions targeted at the gaps found in round 1; (c) leave the set alone and trust the baseline.
+- **Choice:** (b). Gaps found: no how-to questions, no typos, no multi-symptom incident messages, only 4 vague, unanswerable questions that were all easy, only 32 runbooks and 10 alerts ever targeted, nothing on services that exist only as alerts (MySQL, MongoDB, SSL, clock), average question length 8 words.
+- **What was added (q45 to q69):** 6 symptoms on never-targeted runbooks, 6 how-to, 2 paraphrase, 4 alert-only, 1 pasted alert, 1 messy, 1 multi-symptom, 1 vague, 3 near-miss unanswerable (EKS/Karpenter, DynamoDB, OpenShift). Result: 69 questions, 62 answerable, 7 unanswerable; 49 runbooks and 18 alerts targeted.
+- **Bias mitigation (same as D11):** answer keys decided by reading the runbook headings and `rules.yml`; no searches were run. A script confirmed every expected file exists and every alert name is real. "Absent from the corpus" was verified by searching the raw files: two candidates (Splunk, major version upgrade) were dropped because they do appear.
+- **Rules kept from D12:** where a runbook exists, only runbooks count for symptom and vague questions. For topics with only alerts (MySQL, MongoDB, SSL, clock), alerts count, because there is nothing else to return.
+- **Trade-offs:** still one author, still file-level marking, per-category groups of 1 to 4 questions are too small for percentages. Lenient keys on q65 and q66 (any of several answers counts) make those easier, on purpose, because the questions are genuinely ambiguous.
+- **Reporting:** the original 44 results stay in `EVAL_RESULTS.md` as the historical baseline; the next run reports both "original 44" and "all 69", so numbers stay comparable.
+- **Revisit:** after the first full run, read every failed question to decide whether the SYSTEM or the QUESTION was wrong, and veto any unnatural question.
+
+## D15. Generation eval: combined grading, Opus 5.5 judge, 10 hand reviews
+
+- **Context:** the retrieval eval only checks that the right source is in the top 5. Phase 4 needs to know whether the WRITTEN answer is faithful to its sources, complete, cited correctly, and honest about "not found". The code only checks that `[n]` points at a real source, not that the source supports the claim (D13).
+- **Options:** (a) rules in code only; (b) an LLM judge only; (c) rules + LLM judge + a human sample; (d) human review only.
+- **Choice (2026-11-20, mine): (c) combined.**
+  - **Rules on all 69 questions:** citations well-formed, no truncation, no refusal, "Not found" appears on the 7 unanswerable questions and (as a failure) on answerable ones.
+  - **LLM judge on the 62 answerable questions:** faithfulness (is every claim supported by the cited source?) and completeness (key steps and warnings present?).
+  - **Judge model: Claude Opus 5.5.** Answers are written by Sonnet 5.5. A stronger model as judge, and a different model from the writer.
+  - **Human review: 10 answers**, picked to include the judge's lowest and highest scores, so I can check whether the judge itself can be trusted.
+- **Why not the writer as its own judge:** the same model shares the writer's blind spots and tends to rate its own style and plausible-sounding claims favourably (self-preference bias). A stronger judge helps but does not remove the problem, which is why a human sample stays in the design.
+- **Trade-offs:** the judge has its own errors and costs money (estimate before running); 10 human reviews is a small sample, so it calibrates the judge rather than proving a number; the judge sees the same chunks the writer saw, so it cannot detect a retrieval failure (the retrieval eval covers that).
+- **Rubric (2026-11-20, details in LEARNING_NOTES section 28):**
+  - Grade GROUNDEDNESS (is each claim supported by the sources we gave), not general correctness.
+  - Rules in code on all 69: not truncated, not refused, citations well-formed, no wrong refusal (only when the expected source was retrieved), unanswerable questions start with the exact not-found sentence.
+  - Judge on the 62 answerable: structured JSON with a claim list (`SUPPORTED` / `MISCITED` / `UNSUPPORTED` / `CONTRADICTED`) and an omissions list (`warning` / `step`); faithfulness, citation accuracy, completeness and PASS are COMPUTED IN CODE from it, so the judge never hands out a bare score and every verdict can be audited.
+  - Human: 10 answers graded blind (before seeing the judge's verdict); report agreement and every disagreement.
+- **Cost estimate:** about $4 per full run (range $3 to $7): answers about $0.83 (Sonnet 5.5), judge about $3.30 (Opus 5.5 at $4 / $20 per million; its output tokens are the main uncertainty). Answers are saved so a judge-only re-run costs about $3.30. Plan: pilot on 3 questions to measure real judge tokens, then decide the full run.
+- **Status:** rules layer built and run on all 69 questions (2026-11-21, see D16); judge not built yet.
+
+## D16. Rule `noWrongRefusal` counts only RUNBOOK hits, not alert-chunk hits
+
+- **Context:** the first run of the rules layer (2026-11-21) flagged 8 "wrong refusals" (the model said "Not found" although retrieval had found an expected source). Reading them, 6 were alert-only hits: the retrieved chunk described an alert ("MySQL replication lag on instance") but contained no fix steps, so "Not found" for a "what do I do" question is defensible. 2 (q15, q25) were the right file but the wrong section.
+- **Options:** (a) keep the rule as first written (any expected source retrieved); (b) apply it only when an expected RUNBOOK chunk was retrieved.
+- **Choice (2026-11-21, mine): (b).**
+- **Why:** it follows D12: alert chunks carry no steps, so retrieving one does not mean an answer was possible. Counting it would blame the writer for a gap in the corpus.
+- **Honesty note:** the change was made AFTER seeing the results, which risks looking like moving the goalposts. Mitigations: the reason is the same principle as D12, the original figure stays on record (8 flagged: q15, q25, q33, q38, q39, q59, q60, q61), and the same saved answers were re-scored, not re-run. Result under the new rule: 3 flagged (q15, q25, q39); the rule now applies to 49 questions instead of 61.
+- **Trade-off:** the rule is now silent on questions whose only corpus coverage is an alert description. Whether "Not found." alone is a good reply for those (for example the pasted `KubePodCrashLooping`) is a separate product question, not decided: "this alert means X, no runbook exists" might serve an on-call engineer better.
+- **Tooling:** `npm run eval:gen -- --from <file.json>` re-applies the rules to a saved run without any API call, so rule changes cost nothing to evaluate.

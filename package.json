@@ -14,6 +14,7 @@
     "ingest": "tsx src/cli/ingest.ts",
     "search": "tsx src/cli/search.ts",
     "eval": "tsx src/cli/eval.ts",
+    "eval:gen": "tsx src/cli/evalGen.ts",
     "ask": "tsx src/cli/ask.ts",
     "data:fetch": "tsx src/cli/fetchData.ts"
   },

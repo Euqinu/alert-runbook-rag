@@ -1,8 +1,7 @@
-import type { SearchResult } from "../query/search.js";
 import type { EvalQuery } from "./queries.js";
-import { firstHitRank, type Outcome } from "./score.js";
+import { firstHitRank, type Outcome, type RetrievedChunk } from "./score.js";
 
-type SearchFn = (question: string, k: number) => Promise<SearchResult[]>;
+type SearchFn = (question: string, k: number) => Promise<RetrievedChunk[]>;
 
 /** Run every question through the search, one at a time, and record where the answer landed. */
 export async function runEval(

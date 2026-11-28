@@ -1,8 +1,16 @@
 import type { SearchResult } from "../query/search.js";
 import type { EvalQuery, Expected } from "./queries.js";
 
+/**
+ * A retrieved chunk, from vector search or hybrid search. Scoring only needs source, title and
+ * alertName; `distance` is null for a chunk the vector search did not return (hybrid only).
+ */
+export type RetrievedChunk = Omit<SearchResult, "distance"> & {
+  distance: number | null;
+};
+
 /** Does this result satisfy one expected entry? */
-export function matches(result: SearchResult, expected: Expected): boolean {
+export function matches(result: RetrievedChunk, expected: Expected): boolean {
   if ("runbook" in expected) {
     // Runbook chunk titles look like "patroni/postgres.md > Heading > Subheading".
     return (
@@ -20,7 +28,7 @@ export function matches(result: SearchResult, expected: Expected): boolean {
 
 /** 1-based position of the first result matching ANY expected entry, or null if none does. */
 export function firstHitRank(
-  results: SearchResult[],
+  results: RetrievedChunk[],
   expected: Expected[],
 ): number | null {
   const index = results.findIndex((r) => expected.some((e) => matches(r, e)));
@@ -29,7 +37,7 @@ export function firstHitRank(
 
 export interface Outcome {
   query: EvalQuery;
-  results: SearchResult[];
+  results: RetrievedChunk[];
   /** null = no expected answer in the results (always null for unanswerable questions). */
   rank: number | null;
 }

@@ -1,0 +1,841 @@
+{
+  "mode": "hybrid",
+  "k": 5,
+  "depth": 20,
+  "summary": {
+    "questions": 62,
+    "hitRate": 0.967741935483871,
+    "hitRateAt1": 0.7741935483870968,
+    "mrr": 0.8505376344086023
+  },
+  "outcomes": [
+    {
+      "id": "q01",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/alerts/PatroniIsDown.md > PatroniIsDown > Overview",
+        "patroni/alerts/PatroniIsDown.md > PatroniIsDown > Alert Behavior",
+        "patroni/alerts/PatroniIsDown.md > PatroniIsDown > Services",
+        "patroni/alerts/PatroniIsDown.md > PatroniIsDown > Metrics",
+        "patroni/alerts/PatroniIsDown.md > PatroniIsDown > Dependencies"
+      ]
+    },
+    {
+      "id": "q02",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/alerts/PostgresSplitBrain.md > PostgresSplitBrain > Overview",
+        "patroni/alerts/PostgresSplitBrain.md > PostgresSplitBrain > Services",
+        "patroni/alerts/PostgresSplitBrain.md > PostgresSplitBrain > Alert Behavior",
+        "patroni/alerts/PostgresSplitBrain.md > PostgresSplitBrain > Possible Resolutions",
+        "patroni/alerts/PostgresSplitBrain.md > PostgresSplitBrain > Related Links"
+      ]
+    },
+    {
+      "id": "q03",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/alerts/PatroniLongRunningTransactionDetected.md > PatroniLongRunningTransactionDetected > Services",
+        "patroni/alerts/PatroniLongRunningTransactionDetected.md > PatroniLongRunningTransactionDetected > Overview",
+        "patroni/alerts/PatroniLongRunningTransactionDetected.md > PatroniLongRunningTransactionDetected > Alert Behavior",
+        "patroni/alerts/PatroniDeadlocksDetected.md > PatroniDeadlocksDetected > Related Links",
+        "patroni/alerts/PatroniLongRunningTransactionDetected.md > PatroniLongRunningTransactionDetected > Recent changes"
+      ]
+    },
+    {
+      "id": "q04",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/alerts/KubeContainersWaitingInError.md > KubeContainersWaitingInError > Possible resolutions",
+        "kube/alerts/KubeContainersWaitingInError.md > KubeContainersWaitingInError > Services",
+        "kube/alerts/KubeContainersWaitingInError.md > KubeContainersWaitingInError > Overview",
+        "kube/alerts/KubeContainersWaitingInError.md > KubeContainersWaitingInError > Dependencies",
+        "kube/alerts/KubeContainersWaitingInError.md > KubeContainersWaitingInError > Related Links"
+      ]
+    },
+    {
+      "id": "q05",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "elastic/alerts/ElasticsearchExporterClusterUnreachable.md > ElasticsearchExporterClusterUnreachable > Services",
+        "elastic/alerts/ElasticsearchExporterClusterUnreachable.md > ElasticsearchExporterClusterUnreachable > Overview",
+        "elastic/alerts/ElasticsearchExporterClusterUnreachable.md > ElasticsearchExporterClusterUnreachable > Severities",
+        "elastic/advanced-search-cluster-metrics.md > Advanced Search cluster metrics in Mimir > What stops alerting while the exporter is down",
+        "elastic/alerts/ElasticsearchExporterClusterUnreachable.md > ElasticsearchExporterClusterUnreachable > Dependencies"
+      ]
+    },
+    {
+      "id": "q06",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/alerts/PatroniPrimaryDiskIOSaturated.md > PatroniPrimaryDiskIOSaturated > Overview",
+        "patroni/alerts/PatroniPrimaryDiskIOSaturated.md > PatroniPrimaryDiskIOSaturated > Scope",
+        "patroni/alerts/PatroniPrimaryDiskIOSaturated.md > PatroniPrimaryDiskIOSaturated > Diagnose > 1. Confirm it, and find the node",
+        "patroni/alerts/PatroniPrimaryDiskIOSaturated.md > PatroniPrimaryDiskIOSaturated > Mitigate",
+        "patroni/alerts/PatroniPrimaryDiskIOSaturated.md > PatroniPrimaryDiskIOSaturated > Mental model"
+      ]
+    },
+    {
+      "id": "q07",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/alerts/HPAScaleCapability.md > HPAScaleCapability",
+        "kube/alerts/HPAScaleCapability.md > HPAScaleCapability > Overview",
+        "kube/alerts/HPAScaleCapability.md > HPAScaleCapability > Alert Behavior",
+        "kube/alerts/HPAScaleCapability.md > HPAScaleCapability > Services",
+        "kube/alerts/HPAScaleCapability.md > HPAScaleCapability > Dependencies"
+      ]
+    },
+    {
+      "id": "q08",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Host out of memory",
+        "alert: Host OOM kill detected",
+        "alert: Host EDAC Uncorrectable Errors detected",
+        "alert: Host memory under memory pressure",
+        "alert: Host EDAC Correctable Errors detected"
+      ]
+    },
+    {
+      "id": "q09",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Redis out of configured maxmemory",
+        "alert: Redis out of system memory",
+        "alert: Redis too many connections",
+        "redis/redis.md > Troubleshooting > What is causing Redis to slowdown? > redis-memory-analyzer",
+        "redis/redis.md > Troubleshooting > Failover and Recovery procedures > Replication issues > client-output-buffer-limit"
+      ]
+    },
+    {
+      "id": "q10",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Postgresql replication lag",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Symptoms",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Resolution",
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > Monitoring and best practices during repacking > Lags",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Possible checks"
+      ]
+    },
+    {
+      "id": "q11",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Possible checks",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 2: Assess (5 minutes)",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Symptoms",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication Slots > Resolution",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Resolution"
+      ]
+    },
+    {
+      "id": "q12",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgresql-disk-space.md > PostgreSQL > So your Postgres server has run out of disk space",
+        "patroni/postgresql-disk-space.md > PostgreSQL > So your Postgres server has run out of disk space",
+        "patroni/postgresql-disk-space.md > PostgreSQL > So your Postgres server has run out of disk space",
+        "patroni/postgres.md > Postgresql troubleshooting > Errors > Check the database error logs",
+        "patroni/postgresql-backups-wale-walg.md > PostgreSQL Backups: WAL-G > Database Backups Restore Testing > Troubleshooting: What to Do if Backup Restore Verification Fails"
+      ]
+    },
+    {
+      "id": "q13",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgresql-locking.md > About Locking and cancelling/terminating queries > How to see locking and locked activity",
+        "patroni/postgresql-locking.md > About Locking and cancelling/terminating queries > How to see locking and locked activity",
+        "patroni/alerts/PatroniDeadlocksDetected.md > PatroniDeadlocksDetected > Troubleshooting > Inspect live on the node",
+        "patroni/postgresql-locking.md > About Locking and cancelling/terminating queries > How to see locking and locked activity",
+        "patroni/postgresql-locking.md > How to cancel (or terminate) a blocking query"
+      ]
+    },
+    {
+      "id": "q14",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "pgbouncer/pgbouncer-connections.md > PgBouncer connection management and troubleshooting > Connection pooling monitoring and tuning",
+        "pgbouncer/pgbouncer-saturation.md > Sidekiq or Web/API is using most of its PgBouncer connections > Troubleshoot",
+        "alert: PGBouncer clients waiting for connection",
+        "pgbouncer/pgbouncer-connections.md > PgBouncer connection management and troubleshooting > Connection pooling monitoring and tuning",
+        "pgbouncer/pgbouncer-connections.md > PgBouncer connection management and troubleshooting"
+      ]
+    },
+    {
+      "id": "q15",
+      "answerable": true,
+      "rank": 5,
+      "top": [
+        "alert: Elasticsearch disk out of space",
+        "elastic/troubleshooting/README.md > Troubleshooting > Index Lifecycle Management (ILM) > Failure to move an index from a hot node to a warm node",
+        "alert: Elasticsearch disk space low",
+        "elastic/alerts/ElasticsearchExporterClusterUnreachable.md > ElasticsearchExporterClusterUnreachable > Overview",
+        "elastic/disk_space_saturation.md > Elastic Nodes Disk Space Saturation > Previous Incidents"
+      ]
+    },
+    {
+      "id": "q16",
+      "answerable": true,
+      "rank": 4,
+      "top": [
+        "alert: OpenSearch is yellow",
+        "alert: Elasticsearch unassigned shards",
+        "alert: Elasticsearch Cluster Yellow",
+        "elastic/troubleshooting/README.md > Troubleshooting > Elastic > Shard Allocation Failure > shards unavailable (cluster unhealthy)",
+        "elastic/disk_space_saturation.md > Elastic Nodes Disk Space Saturation > Unassigned shards"
+      ]
+    },
+    {
+      "id": "q17",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/alerts/KubeContainersWaitingInError.md > KubeContainersWaitingInError > Overview",
+        "kube/kubernetes.md > Kubernetes on GitLab.com > Alerts",
+        "patroni/alerts/PatroniPrimaryDiskIOSaturated.md > PatroniPrimaryDiskIOSaturated > Diagnose > 2. Find what is generating the IO > If the dashboard has no data",
+        "kube/alerts/KubeContainersWaitingInError.md > KubeContainersWaitingInError > Troubleshooting",
+        "alert: Kubernetes Container waiting"
+      ]
+    },
+    {
+      "id": "q18",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Remediation",
+        "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Evidence",
+        "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Remediation",
+        "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck",
+        "kube/helm-upgrade-stuck.md > Helm Upgrade is Stuck > Post Remediation"
+      ]
+    },
+    {
+      "id": "q19",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/k8s-pvc-resize.md > Resize a PersistentVolumeClaim > Related",
+        "kube/k8s-pvc-resize.md > Resize a PersistentVolumeClaim",
+        "kube/alerts/kube_persistent_volume_claim_inodes.md > component_saturation_slo_out_of_bounds:kube_persistent_volume_claim_inodes > Possible Resolutions",
+        "kube/kubernetes.md > Kubernetes on GitLab.com > Common tasks",
+        "kube/alerts/kube_persistent_volume_claim_inodes.md > component_saturation_slo_out_of_bounds:kube_persistent_volume_claim_inodes > Possible Resolutions"
+      ]
+    },
+    {
+      "id": "q20",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/k8s-isolate-pod.md > Isolate a pod",
+        "kube/k8s-isolate-pod.md > Isolate a pod > Procedure",
+        "kube/k8s-operations.md > Kubernetes operations > Attach to a running container",
+        "patroni/patroni-management.md > Patroni Cluster Management > Replacing the whole cluster (with a new one)",
+        "kube/k8s-sts-guidelines.md > StatefulSet Guidelines > Guidelines for future use"
+      ]
+    },
+    {
+      "id": "q21",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/pg_xid_wraparound_alert.md > `pg_xid_wraparound` Saturation Alert > Risk of DB shutdown in the near future, approaching transaction ID wraparound",
+        "patroni/pg_xid_wraparound_alert.md > `pg_xid_wraparound` Saturation Alert > More Reading",
+        "patroni/alerts/PatroniLongRunningTransactionDetected.md > PatroniLongRunningTransactionDetected > Related Links",
+        "alert: Postgresql low XID consumption",
+        "patroni/pg_xid_xmin_age_alert.md > `pg_txid_xmin_age` Saturation Alert > Diagnostics: root cause of `pg_txid_xmin_age` spike"
+      ]
+    },
+    {
+      "id": "q22",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/primary_db_node_cpu_saturation.md > Primary Database Node CPU Saturation Analysis > How to identify the root cause? > Total number of calls",
+        "patroni/primary_db_node_cpu_saturation.md > Primary Database Node CPU Saturation Analysis > How to identify the root cause? > Total execution time",
+        "patroni/primary_db_node_cpu_saturation.md > Primary Database Node CPU Saturation Analysis > How to identify the root cause? > Other sources",
+        "patroni/primary_db_node_cpu_saturation.md > Primary Database Node CPU Saturation Analysis > How to identify the root cause? > Total plan time",
+        "patroni/primary_db_node_cpu_saturation.md > Primary Database Node CPU Saturation Analysis > How to identify the root cause? > Map queryid to SQL"
+      ]
+    },
+    {
+      "id": "q23",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 3: Recover the old primary in place",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 3: Recover the old primary in place",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 3: Recover the old primary in place",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 2: Assess (5 minutes)"
+      ]
+    },
+    {
+      "id": "q24",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgres.md > Postgresql troubleshooting > Tables with a large amount of dead tuples > Possible Checks",
+        "patroni/postgres.md > Postgresql troubleshooting > Tables with a large amount of dead tuples > Possible Checks",
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > What is bloat?",
+        "patroni/postgres.md > Postgresql troubleshooting > Tables with a large amount of dead tuples > Symptoms",
+        "patroni/pg_xid_xmin_age_alert.md > `pg_txid_xmin_age` Saturation Alert > Symptoms – how `pg_txid_xmin_age` may be associated with various issues"
+      ]
+    },
+    {
+      "id": "q25",
+      "answerable": true,
+      "rank": 2,
+      "top": [
+        "alert: Redis cluster state not ok",
+        "redis/redis-cluster.md > Redis Cluster > Troubleshooting > What is the state of the cluster?",
+        "redis/scaling-redis-cluster.md > Scaling Redis Cluster > Scale out cluster by resharding Redis keys > 5. Troubleshooting",
+        "redis/redis-cluster.md > Redis Cluster > Troubleshooting > What is the state of the cluster?",
+        "redis/redis-survival-guide-for-sres.md > A survival guide for SREs to working with Redis at GitLab > High Availability > Network partition"
+      ]
+    },
+    {
+      "id": "q26",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "redis/scaling-redis-cluster.md > Scaling Redis Cluster > Setting up instances > 4. Add instances in new shard to the cluster",
+        "redis/scaling-redis-cluster.md > Scaling Redis Cluster > Setting up instances > 2. Create Chef role for new shard",
+        "redis/provisioning-redis-cluster.md > Provisioning Redis Cluster > Setting up instances > 4. Initialising the cluster",
+        "redis/scaling-redis-cluster.md > Scaling Redis Cluster > Setting up instances > 3. Provision VMs",
+        "redis/scaling-redis-cluster.md > Scaling Redis Cluster > Scale out cluster by resharding Redis keys > 3. Migrate keys from existing shards to new shard"
+      ]
+    },
+    {
+      "id": "q27",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "elastic/troubleshooting/elk_mapper_parsing_exception.md > Symptoms",
+        "elastic/troubleshooting/README.md > Troubleshooting > Failover and Recovery procedures - Kibana > refreshing index mappings cache",
+        "elastic/troubleshooting/README.md > Troubleshooting > Failover and Recovery procedures - Elastic > Fixing conflicts in index mappings",
+        "alert: Elasticsearch High Indexing Latency",
+        "alert: Elasticsearch High Indexing Rate"
+      ]
+    },
+    {
+      "id": "q28",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "redis/redis.md > Troubleshooting > What is causing Redis to slowdown? > redis-cli sub-commands > --latency-history",
+        "redis/redis.md > Troubleshooting > What is causing Redis to slowdown? > redis-cli sub-commands > --latency-history",
+        "redis/redis.md > Troubleshooting > What is causing Redis to slowdown? > Redis latency monitoring framework > LATENCY DOCTOR",
+        "redis/redis.md > Troubleshooting > What is causing Redis to slowdown?",
+        "redis/redis-survival-guide-for-sres.md > A survival guide for SREs to working with Redis at GitLab > High Availability > Node failure > Slowness can cause failover"
+      ]
+    },
+    {
+      "id": "q29",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/primary_db_node_wal_generation_saturation.md > Primary Database Node WAL Generation Saturation Analysis > Why do we need this alert?",
+        "patroni/primary_db_node_wal_generation_saturation.md > Primary Database Node WAL Generation Saturation Analysis > Why do we need this alert?",
+        "patroni/primary_db_node_wal_generation_saturation.md > Primary Database Node WAL Generation Saturation Analysis > How to identify the root cause?",
+        "patroni/primary_db_node_wal_generation_saturation.md > Primary Database Node WAL Generation Saturation Analysis > Why do we need this alert?",
+        "patroni/primary_db_node_wal_generation_saturation.md > Primary Database Node WAL Generation Saturation Analysis > Why do we need this alert?"
+      ]
+    },
+    {
+      "id": "q30",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/alerts/PatroniDeadlocksDetected.md > PatroniDeadlocksDetected > Troubleshooting > Inspect live on the node",
+        "patroni/postgresql-locking.md > Deadlocks",
+        "patroni/alerts/PatroniDeadlocksDetected.md > PatroniDeadlocksDetected > Troubleshooting > Reading the dashboard",
+        "alert: Postgresql dead locks",
+        "patroni/postgres-checkup.md > Most important insights the reports can provide > Configuration and upgrades"
+      ]
+    },
+    {
+      "id": "q31",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "redis/ban-an-IP-with-redis.md > Blocking individual IPs using Redis and Rack Attack > Background",
+        "redis/ban-an-IP-with-redis.md > Blocking individual IPs using Redis and Rack Attack > How do I > Ban a single IP",
+        "redis/ban-an-IP-with-redis.md > Blocking individual IPs using Redis and Rack Attack > How do I > Rack attack redis data structure",
+        "redis/ban-an-IP-with-redis.md > Blocking individual IPs using Redis and Rack Attack > How do I > Should a block need to be removed",
+        "redis/ban-an-IP-with-redis.md > Blocking individual IPs using Redis and Rack Attack > How do I > Find the Redis master node"
+      ]
+    },
+    {
+      "id": "q32",
+      "answerable": true,
+      "rank": null,
+      "top": [
+        "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time",
+        "patroni/user_grants_permission.md > Roles/Users grants and permission Runbook > Modify pg_hba conf",
+        "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time",
+        "patroni/user_grants_permission.md > Roles/Users grants and permission Runbook > Propagated user to PGBouncer",
+        "patroni/database_peak_analysis.md > Database Peak Analysis Report > How we create the issue > total time"
+      ]
+    },
+    {
+      "id": "q33",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Postgresql too many connections",
+        "alert: MongoDB too many connections (DCU)",
+        "alert: MongoDB too many connections (Percona)",
+        "patroni/postgres.md > Postgresql troubleshooting > PGBouncer Errors",
+        "alert: Postgresql max connections reached"
+      ]
+    },
+    {
+      "id": "q34",
+      "answerable": true,
+      "rank": null,
+      "top": [
+        "patroni/unhealthy_patroni_node_handling.md > Handling Unhealthy Patroni Replica > Diagnose > Resource Contention > OOM and Memory Pressure",
+        "alert: GitLab high memory usage",
+        "alert: Go memory usage high",
+        "patroni/unhealthy_patroni_node_handling.md > Handling Unhealthy Patroni Replica > Diagnose > Resource Contention > Investigation",
+        "alert: Process exporter high memory usage"
+      ]
+    },
+    {
+      "id": "q35",
+      "answerable": true,
+      "rank": 4,
+      "top": [
+        "alert: Redis out of system memory",
+        "alert: Memcached high eviction rate",
+        "redis/redis-survival-guide-for-sres.md > A survival guide for SREs to working with Redis at GitLab > Debugging and Diagnosis > Bigkeys > Running on demand",
+        "redis/redis.md > Troubleshooting > What is causing Redis to slowdown? > Redis latency monitoring framework > LATENCY DOCTOR",
+        "redis/memory-space-analysis-cupcake-rdb.md > Memory space analysis with cupcake-rdb"
+      ]
+    },
+    {
+      "id": "q36",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "pgbouncer/pgbouncer-connections.md > PgBouncer connection management and troubleshooting > Connection pooling monitoring and tuning",
+        "patroni/postgres.md > Postgresql troubleshooting > PGBouncer Errors",
+        "pgbouncer/patroni-consul-postgres-pgbouncer-interactions.md > Quick reference commands > PgBouncer",
+        "pgbouncer/pgbouncer-connections.md > PgBouncer connection management and troubleshooting > Connection pooling monitoring and tuning",
+        "pgbouncer/pgbouncer-connections.md > PgBouncer connection management and troubleshooting > Connection pooling monitoring and tuning"
+      ]
+    },
+    {
+      "id": "q37",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Redis replication broken",
+        "alert: Redis disconnected slaves",
+        "alert: Redis down",
+        "alert: Redis master link down",
+        "alert: Redis missing master"
+      ]
+    },
+    {
+      "id": "q38",
+      "answerable": true,
+      "rank": 5,
+      "top": [
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Metrics > KubePodsUnschedulable",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Metrics > KubePodsUnschedulable",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Metrics > KubeDaemonSetPodsUnschedulable",
+        "kube/alerts/KubernetesClusterZombieProcesses.md > KubernetesClusterZombieProcesses > Overview",
+        "alert: Kubernetes pod crash looping"
+      ]
+    },
+    {
+      "id": "q39",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Elasticsearch Cluster Red",
+        "alert: Elasticsearch Cluster Yellow",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Verification > KubeServiceClusterScaleupsErrorSLOViolation",
+        "elastic/advanced-search-cluster-metrics.md > Advanced Search cluster metrics in Mimir > Periodic-operation queries",
+        "alert: Elasticsearch Healthy Nodes"
+      ]
+    },
+    {
+      "id": "q40",
+      "answerable": true,
+      "rank": 2,
+      "top": [
+        "patroni/postgres.md > Postgresql troubleshooting > Errors > Check the database error logs",
+        "alert: Host out of disk space",
+        "patroni/postgresql-disk-space.md > PostgreSQL > So your Postgres server has run out of disk space",
+        "alert: Host disk may fill in 24 hours",
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > ⚠️ Mandatory pre-flight checklist for CI Postgres primaries > 2. Disk capacity"
+      ]
+    },
+    {
+      "id": "q41",
+      "answerable": false,
+      "rank": null,
+      "top": [
+        "alert: Cortex query-scheduler queries stuck",
+        "alert: Mimir scheduler queries stuck",
+        "alert: Jenkins node offline",
+        "alert: GitLab CI runner authentication failures",
+        "alert: GitLab Puma high queued connections"
+      ]
+    },
+    {
+      "id": "q42",
+      "answerable": false,
+      "rank": null,
+      "top": [
+        "alert: Windows Server service Status",
+        "alert: Windows Server collector Error",
+        "alert: Windows Server disk Space Usage",
+        "alert: Windows Server CPU Usage",
+        "alert: Windows Server memory Usage"
+      ]
+    },
+    {
+      "id": "q43",
+      "answerable": false,
+      "rank": null,
+      "top": [
+        "alert: Cassandra authentication failures",
+        "alert: GitLab CI runner authentication failures",
+        "alert: ClickHouse Authentication Failures",
+        "alert: GitLab Gitaly authentication failures",
+        "patroni/rotating-rails-postgresql-password.md > Rotating Rails' PostgreSQL password"
+      ]
+    },
+    {
+      "id": "q44",
+      "answerable": false,
+      "rank": null,
+      "top": [
+        "alert: HAProxy backend healthcheck flapping",
+        "alert: WireGuard peer handshake too old",
+        "patroni/pg_xid_wraparound_alert.md > `pg_xid_wraparound` Saturation Alert > Risk of DB shutdown in the near future, approaching transaction ID wraparound",
+        "alert: WireGuard peer handshake never established",
+        "kube/k8s-oncall-setup.md > Kubernetes on-call setup > Kubernetes API access"
+      ]
+    },
+    {
+      "id": "q45",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/alerts/kube_persistent_volume_claim_inodes.md > component_saturation_slo_out_of_bounds:kube_persistent_volume_claim_inodes > Overview",
+        "kube/alerts/kube_persistent_volume_claim_inodes.md > component_saturation_slo_out_of_bounds:kube_persistent_volume_claim_inodes > Troubleshooting",
+        "alert: Kubernetes Volume out of disk space",
+        "alert: Kubernetes Volume out of inodes",
+        "kube/kubernetes.md > Kubernetes on GitLab.com > Alerts"
+      ]
+    },
+    {
+      "id": "q46",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Verification > KubePodsUnschedulable",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Alerts > KubeDaemonSetPodsUnschedulable",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Alerts > KubePodsUnschedulable",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Metrics > KubePodsUnschedulable"
+      ]
+    },
+    {
+      "id": "q47",
+      "answerable": true,
+      "rank": 2,
+      "top": [
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Troubleshooting > Top causes we have seen in production",
+        "kube/alerts/GKENodeCountCritical.md > GKENodeCountCritical > Overview",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Alerts > KubeServiceClusterScaleupsErrorSLOViolation",
+        "kube/alerts/GKENodeCountCritical.md > GKENodeCountCritical > Troubleshooting",
+        "kube/k8s-cluster-rebuild.md > Rebuild a GKE cluster > Known caveats"
+      ]
+    },
+    {
+      "id": "q49",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgresql-backups-wale-walg.md > PostgreSQL Backups: WAL-G > Backing Our Data Up > How Do I Verify This? > Checklist of reconfiguration / WAL-G upgrades",
+        "patroni/postgresql-backups-wale-walg.md > PostgreSQL Backups: WAL-G > Troubleshooting > How to Check if WAL-G Backups are Running > Daily backups (\"base backups\" or \"wal-g_backup_push\")",
+        "patroni/postgresql-backups-wale-walg.md > PostgreSQL Backups: WAL-G > Troubleshooting > How to Check if WAL-G Backups are Running > Continuous Shipping of WAL Files (\"wal-push\")",
+        "patroni/postgresql-backups-wale-walg.md > PostgreSQL Backups: WAL-G > Troubleshooting > How to Check if WAL-G Backups are Running > Daily backups (\"base backups\" or \"wal-g_backup_push\")",
+        "patroni/postgresql-backups-wale-walg.md > PostgreSQL Backups: WAL-G > Backing Our Data Up > How Do I Verify This? > How to check WAL archiving"
+      ]
+    },
+    {
+      "id": "q50",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgres-data-corruption.md > Dealing with Data Corruption in PostgreSQL > Detecting corrupted data",
+        "patroni/postgres-data-corruption.md > Dealing with Data Corruption in PostgreSQL > Detecting corrupted data",
+        "patroni/postgres-data-corruption.md > Dealing with Data Corruption in PostgreSQL > What to when finding corrupted data",
+        "patroni/postgres-data-corruption.md > Dealing with Data Corruption in PostgreSQL > What to when finding corrupted data",
+        "patroni/postgres.md > Postgresql troubleshooting > Tables with a large amount of dead tuples > Possible Checks"
+      ]
+    },
+    {
+      "id": "q53",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes",
+        "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes > Logs",
+        "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes > Dashboards",
+        "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes > Logs",
+        "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes > Metric queries"
+      ]
+    },
+    {
+      "id": "q54",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgresql-buffermapping-lwlock-contention.md > Background Details > Symptoms",
+        "patroni/postgresql-locking.md > About Locking and cancelling/terminating queries > How to see locking and locked activity",
+        "patroni/pg_xid_xmin_age_alert.md > `pg_txid_xmin_age` Saturation Alert > Symptoms – how `pg_txid_xmin_age` may be associated with various issues",
+        "patroni/alerts/PatroniDeadlocksDetected.md > PatroniDeadlocksDetected > Troubleshooting > Reading the dashboard",
+        "patroni/wait-events-analisys.md > Postgres wait events analysis (a.k.a. Active Session History; ASH dashboard) > Goals and methodologies"
+      ]
+    },
+    {
+      "id": "q48",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "pgbouncer/pgbouncer-add-instance.md > Add a new PgBouncer instance",
+        "pgbouncer/pgbouncer-add-instance.md > Add a new PgBouncer instance > Adding a read/write PgBouncer node",
+        "pgbouncer/pgbouncer-add-instance.md > Add a new PgBouncer instance > Adding a read/write PgBouncer node",
+        "pgbouncer/pgbouncer-connections.md > PgBouncer connection management and troubleshooting > Resource saturation",
+        "pgbouncer/pgbouncer-add-instance.md > Add a new PgBouncer instance > Adding a read-only PgBouncer instance"
+      ]
+    },
+    {
+      "id": "q51",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > Why pg_repack?",
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > What to repack",
+        "patroni/postgres-automatic-reindexing.md > GitLab application-side reindexing > What is reindexing?",
+        "patroni/postgres-automatic-reindexing.md > GitLab application-side reindexing > What is reindexing?",
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > Get objects that need to be repacked"
+      ]
+    },
+    {
+      "id": "q55",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "redis/redis-rdb-snapshots.md > Redis RDB Snapshots",
+        "redis/redis-survival-guide-for-sres.md > A survival guide for SREs to working with Redis at GitLab > High Availability",
+        "redis/redis-survival-guide-for-sres.md > A survival guide for SREs to working with Redis at GitLab > High Availability > Persistence Guarantees",
+        "redis/redis-rdb-snapshots.md > Redis RDB Snapshots > Troubleshooting > Snapshots appear to not be running > Symptoms",
+        "patroni/gcs-snapshots.md > Patroni GCS Snapshots"
+      ]
+    },
+    {
+      "id": "q56",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "elastic/kibana.md > Kibana > Quick start > Kibana URL",
+        "elastic/troubleshooting/README.md > Troubleshooting > Elastic > How to check cluster health",
+        "elastic/elastic-cloud.md > Elastic Cloud > How-to guides > Creating a logging cluster",
+        "elastic/README.md > Elastic > How-to guides > Administrative access/login",
+        "elastic/elastic-cloud.md > Elastic Cloud > How-to guides > Creating a logging cluster"
+      ]
+    },
+    {
+      "id": "q57",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/add-patroni-node-from-wal-archive.md > Adding a Patroni node that catches up from the WAL archive (`nostream`) > Overview",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 5: After recovery",
+        "patroni/scale-up-patroni.md > Scale Up Patroni > Scope",
+        "patroni/add-patroni-node-from-wal-archive.md > Adding a Patroni node that catches up from the WAL archive (`nostream`) > Step 4: Monitor the catch-up",
+        "patroni/patroni-management.md > Patroni Cluster Management > Failover/Switchover > Diverged timeline WAL segments in GCS after failover"
+      ]
+    },
+    {
+      "id": "q58",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/rotating-rails-postgresql-password.md > Rotating Rails' PostgreSQL password",
+        "patroni/rotating-rails-postgresql-password.md > Rotating Rails' PostgreSQL password",
+        "patroni/rotating-rails-postgresql-password.md > Rotating Rails' PostgreSQL password",
+        "patroni/rotating-rails-postgresql-password.md > Rotating Rails' PostgreSQL password",
+        "patroni/postgresql-role-credential-rotation.md > Credential rotation"
+      ]
+    },
+    {
+      "id": "q52",
+      "answerable": true,
+      "rank": 2,
+      "top": [
+        "patroni/postgres.md > Postgresql troubleshooting > Tables with a large amount of dead tuples > Possible Checks",
+        "patroni/pg_xid_xmin_age_alert.md > `pg_txid_xmin_age` Saturation Alert > Symptoms – how `pg_txid_xmin_age` may be associated with various issues",
+        "patroni/postgres.md > Postgresql troubleshooting > Tables with a large amount of dead tuples > Symptoms",
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > What is bloat?",
+        "patroni/pg_xid_xmin_age_alert.md > `pg_txid_xmin_age` Saturation Alert > Diagnostics: root cause of `pg_txid_xmin_age` spike"
+      ]
+    },
+    {
+      "id": "q59",
+      "answerable": true,
+      "rank": 2,
+      "top": [
+        "alert: MySQL Galera donor falling behind",
+        "alert: MySQL heartbeat replication lag",
+        "alert: Redis master link down",
+        "alert: MySQL Slave replication lag",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 2: Assess (5 minutes)"
+      ]
+    },
+    {
+      "id": "q60",
+      "answerable": true,
+      "rank": 2,
+      "top": [
+        "alert: MongoDB replica set primary changed",
+        "alert: MongoDB replica set has no primary",
+        "patroni/primary-unresponsive-assess-before-failover.md > Primary unresponsive or no Leader: recover it without losing data > Step 3: Recover the old primary in place",
+        "patroni/postgresql-buffermapping-lwlock-contention.md > Background Details > Managing eviction rate: pool size, concurrency, execution plans for frequent queries",
+        "alert: MongoDB replication Status 10"
+      ]
+    },
+    {
+      "id": "q61",
+      "answerable": true,
+      "rank": 3,
+      "top": [
+        "alert: Traefik certificate expiring imminently",
+        "alert: Traefik certificate expiring soon",
+        "alert: Blackbox SSL certificate will expire very soon",
+        "alert: Kubernetes client certificate expires next week",
+        "alert: Envoy SSL certificate expiring soon"
+      ]
+    },
+    {
+      "id": "q62",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Host clock skew",
+        "alert: Windows Server NTP client delay",
+        "alert: Windows Server clock offset",
+        "alert: Host clock not synchronising",
+        "alert: Ceph monitor clock skew"
+      ]
+    },
+    {
+      "id": "q63",
+      "answerable": true,
+      "rank": 2,
+      "top": [
+        "kube/alerts/kube_persistent_volume_claim_inodes.md > component_saturation_slo_out_of_bounds:kube_persistent_volume_claim_inodes > Troubleshooting",
+        "alert: Host out of inodes",
+        "patroni/unhealthy_patroni_node_handling.md > Handling Unhealthy Patroni Replica > Replacing the removed replica > Step 2 - Recreate the removed node",
+        "alert: Host inodes may fill in 24 hours",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Troubleshooting"
+      ]
+    },
+    {
+      "id": "q64",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Possible checks",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Resolution",
+        "patroni/postgres.md > Postgresql troubleshooting > Replication is lagging or has stopped > Resolution",
+        "patroni/primary_db_node_wal_generation_saturation.md > Primary Database Node WAL Generation Saturation Analysis > Why do we need this alert?",
+        "patroni/pg_repack.md > Pg_repack using gitlab-pgrepack > Monitoring and best practices during repacking > Lags"
+      ]
+    },
+    {
+      "id": "q65",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "patroni/performance-degradation-troubleshooting.md > Troubleshooting database (postgres/pgbouncer) degradation > Checkpoint activity",
+        "patroni/alerts/PatroniPrimaryDiskIOSaturated.md > PatroniPrimaryDiskIOSaturated > Diagnose > 3. Check whether it has already reached users",
+        "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes > Logs",
+        "pgbouncer/patroni-consul-postgres-pgbouncer-interactions.md > Details of how Patroni uses Consul > What happens during a Patroni leader election?",
+        "patroni/rails-sql-apdex-slow.md > Rails SQL Apdex alerts > What to do in the first 5 minutes"
+      ]
+    },
+    {
+      "id": "q66",
+      "answerable": true,
+      "rank": 1,
+      "top": [
+        "alert: Host out of disk space",
+        "alert: Netdata predicted disk full",
+        "alert: Kubernetes Volume out of disk space",
+        "alert: Ceph OSD near full",
+        "alert: Host out of inodes"
+      ]
+    },
+    {
+      "id": "q67",
+      "answerable": false,
+      "rank": null,
+      "top": [
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Troubleshooting",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Troubleshooting > Top causes we have seen in production",
+        "kube/alerts/KubeSchedulingFailures.md > KubeSchedulingFailures > Alerts > KubeServiceClusterScaleupsErrorSLOViolation",
+        "redis/redis-cluster.md > Redis Cluster > Core concepts",
+        "kube/k8s-cluster-rebuild.md > Rebuild a GKE cluster > Known caveats"
+      ]
+    },
+    {
+      "id": "q68",
+      "answerable": false,
+      "rank": null,
+      "top": [
+        "alert: Spinnaker API rate limit throttling",
+        "alert: CouchDB open databases critical",
+        "alert: Thanos Receive Tenant Limited By Head Series",
+        "alert: Spinnaker AWS rate limiting",
+        "alert: Prometheus target scraping slow"
+      ]
+    },
+    {
+      "id": "q69",
+      "answerable": false,
+      "rank": null,
+      "top": [
+        "alert: Traefik config reload failure",
+        "kube/alerts/KubernetesClusterZombieProcesses.md > KubernetesClusterZombieProcesses > Troubleshooting",
+        "alert: Apache restart",
+        "elastic/alerts/ElasticsearchExporterClusterUnreachable.md > ElasticsearchExporterClusterUnreachable > Alert Behavior",
+        "alert: Envoy no healthy upstream"
+      ]
+    }
+  ]
+}

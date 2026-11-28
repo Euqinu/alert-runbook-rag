@@ -194,3 +194,19 @@ Format: context, options, choice, why.
 - **Why:** (b) needs no score normalisation, so a change in either searcher's scale cannot silently break the fusion. Constant 60 keeps the gap between positions small, so appearing in both lists is worth far more than being first in one. Depth 20, not 5: with only the top 5 of each list, a chunk the keyword search ranked 6th (often only because of a tie broken by row id) could never reach the fusion. Weights are NOT tuned: with 62 answerable questions, one question moves hit rate by 1.6 points, so tuning would fit noise.
 - **Trade-offs:** RRF rewards agreement, so it cannot know we prefer runbook chunks to alert chunks; if both lists rank an alert chunk high, fusion pushes it higher. Depth 20 is a guess, not measured; a wider pool catches more but adds weak candidates. A chunk found only by keywords has no cosine distance (`distance: null`), so code that prints or thresholds on distance needs to cope (5c). The "not found" distance idea from Phase 4 does not carry over to hybrid scores: an RRF score says nothing about how good a match is, only how the chunk ranked.
 - **Not yet measured:** 5c re-runs the eval and compares with the baseline (hit@1 80.6%, hit@5 98.4%, MRR 0.876). Depth, constant and weights are separate experiments to run one at a time.
+
+## D18 addendum (2026-11-28): the query now removes phrase and NOT operators too
+
+- **Context:** the 5c eval exposed that `websearch_to_tsquery` emits `<->` (adjacent words) for tokens like `namespace=payments` and `!` for `-word`. The first version only replaced `&`, so a pasted alert became a half-phrase query.
+- **Choice:** rewrite `<->` and `&` to `|` and drop `!`, giving a plain bag of stems. Regression test in `search.int.test.ts` (failed before, passes after).
+- **Effect (measured):** one question changed (q38, miss to rank 5). Hybrid is still below the vector baseline: hit@1 77.4% vs 80.6%, hit@5 96.8% vs 98.4%, MRR 0.851 vs 0.876. See `EVAL_RESULTS.md`.
+- **Trade-off:** a real "-word" (the user means NOT) is now read as an ordinary word. For alert text and symptom questions that is the right call; this is not a general search box.
+
+## D20. Keep hybrid search in the repo, but vector stays the default (2026-11-28)
+
+- **Context:** hybrid search (D18, D19) measured worse than the vector baseline on all three metrics, even after fixing the query-builder flaw (hit@1 77.4% vs 80.6%, hit@5 96.8% vs 98.4%, MRR 0.851 vs 0.876).
+- **Options:** (a) delete it; (b) make it the default anyway; (c) keep the code, keep vector as the default, and report the result.
+- **Choice (2026-11-28, mine): (c).** `ask` and the generation eval still use vector search; hybrid is reachable with `npm run search -- "q" 5 hybrid` and `npm run eval -- 5 hybrid`.
+- **Why:** the work is a measured experiment with a clear, explainable result (it helps plain-language symptom questions, hurts pasted alerts and alert-only questions, and the cause is that alert chunks do not contain the CamelCase names). Showing what was tried, what the eval said, and why, is stronger than showing only the final configuration. Deleting it would also lose the fusion and eval tooling that a later experiment (or a re-ranker over a wider candidate set in Phase 6) can reuse.
+- **Trade-off:** more code to maintain that the default path does not use. Kept small: `fusion.ts` is pure and tested, `hybrid.ts` is a thin wrapper.
+- **Revisit if:** the alert chunks gain their CamelCase names, or a re-ranker changes what the first stage should return.

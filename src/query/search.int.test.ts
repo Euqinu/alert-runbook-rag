@@ -125,6 +125,42 @@ describe.skipIf(!dbUp)("search", () => {
       expect(results[0]!.rank).toBeGreaterThan(results[1]!.rank);
     });
 
+    it("treats key=value and -word as plain words, not as 'adjacent' or 'NOT'", async () => {
+      await replaceDocument(
+        pool,
+        {
+          source: "test",
+          url: "testsearch://fts2",
+          license: "MIT",
+          docHash: "h",
+          chunks: [
+            {
+              text: "zxqalpha alone",
+              title: "a",
+              alertName: null,
+              chunkIndex: 0,
+            },
+            {
+              text: "zxqbeta alone",
+              title: "b",
+              alertName: null,
+              chunkIndex: 1,
+            },
+          ],
+        },
+        [axes(0, 0, 1), axes(0, 0, 1)],
+      );
+      // Postgres reads "a=b" as the PHRASE "a <-> b" (adjacent words), and "-b" as NOT b.
+      // Neither is what a pasted alert or a casual question means: every word is just a word.
+      for (const question of ["zxqalpha=zxqbeta", "zxqalpha -zxqbeta"]) {
+        const results = await searchFullText(pool, question);
+        expect(results.map((r) => r.chunkIndex).sort(), question).toEqual([
+          0, 1,
+        ]);
+        expect(results.every((r) => r.url === "testsearch://fts2")).toBe(true);
+      }
+    });
+
     it("matches on ANY word: a word that appears nowhere does not rule a chunk out", async () => {
       const results = await searchFullText(
         pool,

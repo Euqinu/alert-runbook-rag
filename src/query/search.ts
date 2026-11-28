@@ -81,9 +81,12 @@ export async function searchFullText(
   const k = options.k ?? 5;
 
   // websearch_to_tsquery cleans the question the same way `tsv` was built (stems, stop words)
-  // and never throws on odd punctuation. It joins words with & (ALL must match), which gives
-  // zero hits for a long natural question, so we swap & for | (ANY may match) and let
-  // ts_rank sort the strong matches from the weak ones.
+  // and never throws on odd punctuation. But it writes the query with three operators we do
+  // not want, so we rewrite all of them:
+  //   &    ALL words must match    -> |  (ANY may match; a long question gives zero hits with &)
+  //   <->  words must be adjacent  -> |  (it emits this for "pod=api" or "api-7f9d" in a paste)
+  //   !    NOT this word           -> removed (it emits this for "-word")
+  // The result is a plain "bag of stems"; ts_rank sorts the strong matches from the weak ones.
   // Ties are broken by id so the order is the same on every run.
   const { rows } = await db.query<{
     text: string;
@@ -96,7 +99,8 @@ export async function searchFullText(
     rank: number;
   }>(
     `WITH q AS (
-       SELECT replace(websearch_to_tsquery('english', $1)::text, '&', '|')::tsquery AS tq
+       SELECT replace(replace(replace(websearch_to_tsquery('english', $1)::text,
+                '<->', '|'), '&', '|'), '!', '')::tsquery AS tq
      )
      SELECT text, title, alert_name, source, url, license, chunk_index,
             ts_rank(tsv, tq) AS rank

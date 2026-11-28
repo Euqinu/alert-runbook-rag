@@ -13,6 +13,7 @@ Eval set: `eval/queries.yaml`, now 69 questions (62 answerable, 7 not in the cor
 | 2026-11-20 | round 2 only (22 answ.)  | derived from the run above              | 81.8% | 100.0%     | ~0.89   | 0 misses. 4 found but not first: q47, q52, q61, q65                                            |
 | 2026-11-28 | all 69 (62 answ.)        | Re-run of the vector baseline           | 80.6% | 98.4%      | 0.876   | Identical to 2026-11-20, so the baseline reproduces. `eval/runs/retrieval-vector-2026-11-28T00-38-53.602Z.json` |
 | 2026-11-28 | all 69 (62 answ.)        | **Hybrid: vector + full-text, RRF, depth 20, K=5** (D18, D19) | 77.4% | 95.2%      | 0.847   | **Worse than the baseline on all three.** Better on 6 questions, worse on 8; 3 misses (q32, q34, q38). See "Hybrid vs baseline" below. `eval/runs/retrieval-hybrid-2026-11-28T00-39-02.222Z.json` |
+| 2026-11-28 | all 69 (62 answ.)        | Hybrid, same settings, **query-builder flaw fixed** (no phrase `<->` or NOT `!` operators) | 77.4% | 96.8%      | 0.851   | Still worse than the baseline. The fix changed ONE question: q38 miss to #5. 2 misses left (q32, q34). `eval/runs/retrieval-hybrid-2026-11-28T00-46-57.572Z.json` |
 
 The original 44 are unchanged (same miss, same 7 not-first), as expected: the search code did not change between the runs. Round 2 scored **slightly higher**, not lower. Prediction in notes section 23 was wrong.
 
@@ -188,3 +189,18 @@ Same 69 questions, K=5. Hybrid = vector search + full-text search, each giving i
 - Only ONE setting was tried: depth 20, constant 60, equal weights. This is NOT a verdict on hybrid search in general, only on this configuration and this query builder.
 
 **Candidate next experiments (one at a time, each its own row):** (1) depth 5 vs 20; (2) a weight below 1 on the full-text list; (3) fix the phrase-operator flaw in the query builder; (4) index the CamelCase alert name (for example add it to the chunk text) so exact names can match; (5) a re-ranker (Phase 6) to prefer runbook chunks. None run yet.
+
+### After fixing the query-builder flaw (2026-11-28)
+
+`websearch_to_tsquery` writes `a=b` as the phrase `a <-> b` and `-a` as NOT a. The first `searchFullText` swapped only `&` for `|`, so those operators stayed. Now all three are rewritten (`<->` to `|`, `&` to `|`, `!` removed), so the query is a plain bag of stems. A regression test failed before the fix and passes after.
+
+| measure | vector | hybrid, first query builder | hybrid, fixed |
+| ------- | ------ | --------------------------- | ------------- |
+| hit@1 | 80.6% | 77.4% | 77.4% |
+| hit@5 | 98.4% | 95.2% | 96.8% |
+| MRR | 0.876 | 0.847 | 0.851 |
+
+- **The fix changed exactly one question:** q38 went from a miss to rank 5. No question got worse. Everything else, including the 6 gains and the other 7 losses against the baseline, is unchanged.
+- **So the flaw was real but minor**, as expected. The main cause of the pasted-alert drop is the one found earlier: the alert chunks do not contain the CamelCase name, so keywords match common words.
+- The other worse cases are unchanged: q34 (miss), q35 #1 to #4, q15 #3 to #5, q40/q59/q60/q63 #1 to #2, and q38 is now #5 instead of #1.
+- **One experiment, one question moved.** The honest reading: the fix is correct and stays; it does not rescue hybrid.

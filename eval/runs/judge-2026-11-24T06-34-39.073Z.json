@@ -1,0 +1,439 @@
+{
+  "judgeModel": "claude-opus-5-5",
+  "answersFile": "eval/runs/gen-2026-11-21T06-59-45.834Z.json",
+  "createdAt": "2026-11-24T06:35:10.949Z",
+  "judged": [
+    {
+      "id": "q18",
+      "call": {
+        "usage": {
+          "inputTokens": 4314,
+          "outputTokens": 2848,
+          "thinkingTokens": 387
+        },
+        "model": "claude-opus-5-5",
+        "judgement": {
+          "claims": [
+            {
+              "text": "A stuck release shows `Error: UPGRADE FAILED: another operation (install/upgrade/rollback) is in progress`.",
+              "cited": [
+                1
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 1,
+              "evidenceQuote": "`Error: UPGRADE FAILED: another operation (install/upgrade/rollback) is in"
+            },
+            {
+              "text": "Deploys that run over 90 minutes time out.",
+              "cited": [
+                1
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 1,
+              "evidenceQuote": "If a deploy takes more than 90 minutes, Helm times out and starts its own"
+            },
+            {
+              "text": "Helm's own rollback can also time out.",
+              "cited": [
+                1
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 1,
+              "evidenceQuote": "That rollback can also time out."
+            },
+            {
+              "text": "This can leave the release `failed`, `pending-rollback`, or both.",
+              "cited": [
+                1
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 1,
+              "evidenceQuote": "This can leave the release in a\n`failed` state, a `pending-rollback` state, or both."
+            },
+            {
+              "text": "Do not use `helm rollback`.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Do not use the `helm rollback` command."
+            },
+            {
+              "text": "`helm rollback` rolls running code back to a previous version.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "`helm rollback` will roll the code that is running in an\n> environment back to a previous version."
+            },
+            {
+              "text": "Rolling back may be unsafe because post-deployment migrations may already have run.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "post-deployment migrations may already have been run for the previous version"
+            },
+            {
+              "text": "Always roll forward when Helm is stuck.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "we should\n> **always** roll forward when Helm is stuck."
+            },
+            {
+              "text": "Check that no other pipelines or deployments/config changes are rolling out to this cluster, including running CI jobs targeting it.",
+              "cited": [
+                4,
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Check for any running CI jobs that are targeting this cluster"
+            },
+            {
+              "text": "The jobs are on the ops instance.",
+              "cited": [
+                4,
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "Remember that the jobs that run are located on our\nops instance."
+            },
+            {
+              "text": "Log into the cluster and confirm all Deployments are healthy.",
+              "cited": [
+                4,
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Ensure all Deployments indicate they are not stuck (as described above)"
+            },
+            {
+              "text": "Check `.status`, e.g. `kubectl get deploy gitlab-gitlab-pages -o json | jq .status`.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "`kubectl get deploy gitlab-gitlab-pages -o json | jq .status`"
+            },
+            {
+              "text": "Conditions `Available` and `Progressing` should be `True`.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "Conditions `Available` and `Progressing` to ensure their status is `True`."
+            },
+            {
+              "text": "`updatedReplicas` and `availableReplicas` should match or be very close.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "Ensure the number of `updatedReplicas` and `availableReplicas` matches or is\n  at least very close"
+            },
+            {
+              "text": "With HPAs they can differ slightly, usually within 10% of `replicas`.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "Mind that with HPA's these values may differ by a tiny amount (usually\n    within 10% of the `replicas` value."
+            },
+            {
+              "text": "If anything looks unhealthy, investigate that Deployment first, since a different remediation may apply.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "If any of the above look suspicious considering a differing remediation option"
+            },
+            {
+              "text": "Identify the `failed` and/or `pending-rollback` release with `helm list --namespace gitlab`, replacing the namespace as needed.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Identify the \"failed\" and/or \"pending-rollback\" release with `helm list\n   --namespace gitlab`"
+            },
+            {
+              "text": "Document the revision number.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Document the noted Revision Number"
+            },
+            {
+              "text": "If it is `pending-rollback`, the revision just before it (revision minus 1) is the failed revision Helm tried to roll back from; document that number too.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "If the status is `pending-rollback`, the revision immediately before it\n     (`Revision Number` minus 1) is the \"failed\" revision"
+            },
+            {
+              "text": "Delete the Helm release secret for each stuck revision, e.g. `kubectl delete secret --namespace gitlab-cny sh.helm.release.v1.gitlab-cny.v1234`.",
+              "cited": [
+                3
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 3,
+              "evidenceQuote": "`kubectl delete secret --namespace gitlab-cny\n     sh.helm.release.v1.gitlab-cny.v1234`"
+            },
+            {
+              "text": "Replace the namespace and secret name as needed.",
+              "cited": [
+                3
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 3,
+              "evidenceQuote": "Replace the namespace and target secret as necessary"
+            },
+            {
+              "text": "If both a failed and a pending-rollback revision exist, delete the secret for each.",
+              "cited": [
+                3
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 3,
+              "evidenceQuote": "If both a failed and a pending-rollback revision exist, delete the secret\n     for each revision"
+            },
+            {
+              "text": "Deleting the Helm version Secret does not affect the code running in the cluster, so it is the safer recovery.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Deleting the Helm version Secret does not affect the\n> code that is running in our cluster, and hence, is a safer way to recover"
+            },
+            {
+              "text": "Check that `helm status` shows the deploy is complete.",
+              "cited": [
+                3
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 3,
+              "evidenceQuote": "Validate that the `helm status` indicates the deploy is complete"
+            },
+            {
+              "text": "Continue remediation for whatever situation brought you here.",
+              "cited": [
+                3
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 3,
+              "evidenceQuote": "Continue remediation pending the situation that brought you here"
+            }
+          ],
+          "omissions": []
+        },
+        "error": null
+      },
+      "score": {
+        "claims": 25,
+        "supported": 25,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "faithfulness": 1,
+        "citationAccuracy": 1,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "pass": true
+      }
+    },
+    {
+      "id": "q32",
+      "call": {
+        "usage": {
+          "inputTokens": 2791,
+          "outputTokens": 604,
+          "thinkingTokens": 0
+        },
+        "model": "claude-opus-5-5",
+        "judgement": {
+          "claims": [
+            {
+              "text": "Be aware of the primary database when querying logs; the runbook links to the PostgreSQL replication overview dashboard.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Be aware of the [primary database](https://dashboards.gitlab.net/d/000000244/postgresql-replication-overview?orgId=1) for log queries"
+            },
+            {
+              "text": "Check the dashboards and log links in the runbook to assess root cause.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "Check the dashboards and log links below to asses root cause"
+            },
+            {
+              "text": "Check whether abuse is the source of the degradation, since abuse is often the cause.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "Often abuse can be the source of DB degradation"
+            },
+            {
+              "text": "Use the abuse runbook's \"How to detect CI abuse\" section.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "reference the [abuse runbook](../ci-runners/troubleshooting-guide.md#how-to-detect-ci-abuse)"
+            },
+            {
+              "text": "See if there is a quick recovery.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "See if there is a quick recovery"
+            },
+            {
+              "text": "If not, page the IMOC, who will bring in the CMOC if a status page update is needed.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "if not page the IMOC who will bring in the CMOC in case we need to make a status page update"
+            }
+          ],
+          "omissions": []
+        },
+        "error": null
+      },
+      "score": {
+        "claims": 6,
+        "supported": 6,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "faithfulness": 1,
+        "citationAccuracy": 1,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "pass": true
+      }
+    },
+    {
+      "id": "q25",
+      "call": {
+        "usage": {
+          "inputTokens": 2425,
+          "outputTokens": 621,
+          "thinkingTokens": 0
+        },
+        "model": "claude-opus-5-5",
+        "judgement": {
+          "claims": [
+            {
+              "text": "The \"Redis cluster state not ok\" alert is critical.",
+              "cited": [
+                1
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 1,
+              "evidenceQuote": "Severity: critical"
+            },
+            {
+              "text": "It means the cluster can't serve queries.",
+              "cited": [
+                1
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 1,
+              "evidenceQuote": "meaning it is unable to serve queries"
+            },
+            {
+              "text": "It is typically because hash slots are unassigned or too many nodes are down.",
+              "cited": [
+                1
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 1,
+              "evidenceQuote": "typically because hash slots are unassigned or too many nodes are down"
+            },
+            {
+              "text": "After a restart, nodes will try to recreate the original cluster topology from the stored cluster-config-file.",
+              "cited": [
+                2
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 2,
+              "evidenceQuote": "the nodes will attempt to recreate the original cluster topology using previously stored information from the file after a restart"
+            },
+            {
+              "text": "Slot PFAIL is a related alert and an early warning.",
+              "cited": [
+                3
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 3,
+              "evidenceQuote": "an early warning sign of node problems before they escalate to a hard FAIL state"
+            },
+            {
+              "text": "Slot FAIL means part of the keyspace is unreachable and requires manual intervention or a failover.",
+              "cited": [
+                4
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 4,
+              "evidenceQuote": "meaning part of the keyspace is unreachable and requires manual intervention or a failover"
+            },
+            {
+              "text": "Missing master means no node is marked as master.",
+              "cited": [
+                5
+              ],
+              "status": "SUPPORTED",
+              "evidenceSource": 5,
+              "evidenceQuote": "Redis cluster has no node marked as master."
+            }
+          ],
+          "omissions": []
+        },
+        "error": null
+      },
+      "score": {
+        "claims": 7,
+        "supported": 7,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "faithfulness": 1,
+        "citationAccuracy": 1,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "pass": false
+      }
+    }
+  ]
+}

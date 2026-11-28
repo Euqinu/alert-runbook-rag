@@ -1,0 +1,192 @@
+{
+  "DO_NOT_OPEN_UNTIL_YOU_HAVE_GRADED_ALL_10": true,
+  "items": [
+    {
+      "review": "R01",
+      "id": "q51",
+      "why_picked": "judge FAIL: 1 UNSUPPORTED claim, looks like outside knowledge",
+      "judge": {
+        "pass": false,
+        "claims": 14,
+        "supported": 13,
+        "miscited": 0,
+        "unsupported": 1,
+        "contradicted": 0,
+        "completeness": 2,
+        "unverifiedQuotes": 0,
+        "unsupportedOrContradictedClaims": [
+          "UNSUPPORTED: Prioritize the indexes, since high index bloat is usually more dangerous for performance."
+        ],
+        "omissions": [
+          {
+            "kind": "minor_step",
+            "text": "Bloat level scale: 20-30% normal, 50-60% significant, 80-90% high, >90% extremely high.",
+            "source": 2
+          }
+        ]
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R02",
+      "id": "q22",
+      "why_picked": "judge PASS, completeness 3, 18 claims, no warning words in sources (plain good answer)",
+      "judge": {
+        "pass": true,
+        "claims": 18,
+        "supported": 18,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "unsupportedOrContradictedClaims": [],
+        "omissions": []
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R03",
+      "id": "q13",
+      "why_picked": "judge FAIL: 1 UNSUPPORTED claim (does the human agree it is invented?)",
+      "judge": {
+        "pass": false,
+        "claims": 9,
+        "supported": 8,
+        "miscited": 0,
+        "unsupported": 1,
+        "contradicted": 0,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "unsupportedOrContradictedClaims": [
+          "UNSUPPORTED: Use the pid of the root blocker (lvl 0) from the output when cancelling/terminating."
+        ],
+        "omissions": []
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R04",
+      "id": "q63",
+      "why_picked": "judge FAIL: 1 UNSUPPORTED claim on an alert-paste query",
+      "judge": {
+        "pass": false,
+        "claims": 5,
+        "supported": 4,
+        "miscited": 0,
+        "unsupported": 1,
+        "contradicted": 0,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "unsupportedOrContradictedClaims": [
+          "UNSUPPORTED: Check whether the warning alert also fired for this host."
+        ],
+        "omissions": []
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R05",
+      "id": "q44",
+      "why_picked": "unanswerable near-miss: VPN flapping, top chunk is a WireGuard runbook (could it actually help?)",
+      "judge": {
+        "skipped": "bare 'Not found' reply, not sent to the judge",
+        "expectedUnanswerable": true
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R06",
+      "id": "q53",
+      "why_picked": "judge FAIL only because of a bad quote (D17 false alarm?); claims look grounded",
+      "judge": {
+        "pass": false,
+        "claims": 13,
+        "supported": 13,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "completeness": 3,
+        "unverifiedQuotes": 1,
+        "unsupportedOrContradictedClaims": [],
+        "omissions": []
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R07",
+      "id": "q62",
+      "why_picked": "judge PASS, completeness 3, short answer, 5 of 5 sources carry warning words (are warnings dropped?)",
+      "judge": {
+        "pass": true,
+        "claims": 6,
+        "supported": 6,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "unsupportedOrContradictedClaims": [],
+        "omissions": []
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R08",
+      "id": "q67",
+      "why_picked": "unanswerable near-miss: EKS/Karpenter, top chunk is KubeSchedulingFailures (a plausible-looking chunk)",
+      "judge": {
+        "skipped": "bare 'Not found' reply, not sent to the judge",
+        "expectedUnanswerable": true
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R09",
+      "id": "q58",
+      "why_picked": "judge PASS, completeness 2, 23 claims, risky domain (password rotation), 2 sources with warnings",
+      "judge": {
+        "pass": true,
+        "claims": 23,
+        "supported": 23,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "completeness": 2,
+        "unverifiedQuotes": 0,
+        "unsupportedOrContradictedClaims": [],
+        "omissions": [
+          {
+            "kind": "minor_step",
+            "text": "The exact verification commands were left out: `knife ssh roles:<env>-base-db-patroni` querying pg_stat_activity, and tailing pgbouncer.log on the patroni and pgbouncer-pool roles.",
+            "source": 2
+          },
+          {
+            "kind": "minor_step",
+            "text": "The full dump command was left out: `sudo -u gitlab-psql /usr/lib/postgresql/9.6/bin/pg_dumpall -h localhost -p 5432 -U gitlab-superuser --roles-only`.",
+            "source": 1
+          }
+        ]
+      },
+      "freeRuleFailures": null
+    },
+    {
+      "review": "R10",
+      "id": "q12",
+      "why_picked": "judge PASS, completeness 3, long answer, 3 sources with warning words (dangerous direction: did it miss a warning?)",
+      "judge": {
+        "pass": true,
+        "claims": 19,
+        "supported": 19,
+        "miscited": 0,
+        "unsupported": 0,
+        "contradicted": 0,
+        "completeness": 3,
+        "unverifiedQuotes": 0,
+        "unsupportedOrContradictedClaims": [],
+        "omissions": []
+      },
+      "freeRuleFailures": null
+    }
+  ]
+}
